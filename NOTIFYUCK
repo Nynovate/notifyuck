@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ $(dunstctl count history) -eq "0" ]]; then
+	/home/hasina/.config/eww/scripts/Notif/test "empty"
+else
+	dunstctl history | tr -d '{}[]' | sed '/type/d' | sed 's/:\t/: /' | sed 's/\t"/^/' | tr -d '",\t' | sed 's/\^data : //' | tr -d '\n' | tr '^' '\n' | sed 's/\ :\ /=/;s/<b>//g;s/<\/b>//g;s/<i>//g;s/<\/i>//g' | /home/hasina/.config/eww/scripts/Notif/test
+fi
