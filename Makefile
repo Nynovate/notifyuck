@@ -4,7 +4,8 @@ CFLAGS = -Wall -Werror -Wextra
 
 C_SOURCE = ./source/main.c \
 		   ./source/error.c \
-		   ./source/print.c
+		   ./source/print.c \
+		   ./source/fetch_data_from_dunstctl.c
 
 C_OBJECT = ${C_SOURCE:.c=.o}
 
