@@ -25,12 +25,26 @@ bool	fetch_and_store_dunstctl_history(int fd_to_store, char *envp[])
 	return (TRUE);
 }
 
+static void	skip_first_five_lines(char *line, size_t *size, FILE *stream)
+{
+	int		iteration;
+
+	iteration = 0;
+	while (iteration++ < 5)
+		getline(&line, size, stream);
+	free(line);
+}
+
 void	extract_data_from_fetch(FILE *stream)
 {
 	char	*line;
 	size_t	size;
 	ssize_t	bytes;
 
+	line = NULL;
+	size = 0;
+	bytes = 0;
+	skip_first_five_lines(line, &size, stream);
 	while (TRUE)
 	{
 		bytes = getline(&line, &size, stream);
