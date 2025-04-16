@@ -22,7 +22,7 @@ int	main(int argc, char *argv[], char *envp[])
 	fd = open("./tmp", O_RDONLY);
 	if (fd == -1)
 		return (err("Failed to fetch tmp file.", ERR_FETCHING));
-	fast_fetch_data(main_buffer, fd, &data);
+	fast_fetch_data(main_buffer, fd, data);
 	close(fd);
 
 	unlink("./tmp");

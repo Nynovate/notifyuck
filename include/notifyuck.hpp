@@ -53,5 +53,6 @@ int		print(const char *str);
 int		print_nbytes(const char *str, unsigned int bytes);
 bool	fetch_and_store_dunstctl_history(int fd_to_store, char *envp[]);
 void	fast_fetch_data(char *main_buffer, int fd_to_fetch, s_notif *data);
+void	print_value(char *str);
 
 #endif

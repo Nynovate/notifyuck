@@ -25,19 +25,101 @@ bool	fetch_and_store_dunstctl_history(int fd_to_store, char *envp[])
 	return (TRUE);
 }
 
-static void	skip_first_five_lines(char *line, size_t *size, FILE *stream)
+static void	extract_data(char *main_buffer, s_notif *data, ssize_t total_length)
 {
-	int		iteration;
+	int	index;
+	char	*buffer = main_buffer;
 
-	iteration = 0;
-	while (iteration++ < 5)
-		getline(&line, size, stream);
-	free(line);
-}
+	(void) total_length;
+	index = 0;
+	buffer += 43;
+	while (TRUE)
+	{
+		data[index].valid = TRUE;
 
-static void	extract_data(char *buffer, s_notif *data)
-{
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].body = buffer;
+		buffer += 11;
 
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].message = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].summary = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].appname = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].category = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].default_action_name = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].icon_path = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].id = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].timestamp = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].timeout = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].progress = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].urgency = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].stack_tag = buffer;
+		buffer += 11;
+
+		buffer = strnstr(buffer, "\"data\" : ", 256);
+		data[index].urls = buffer;
+		buffer += 11;
+
+		if (strnstr(buffer, "\"data\" : ", 64) == NULL)
+			break ;
+		else
+			index++;
+	}
+	int	iteration = 0;
+
+	/*write(STDOUT_FILENO, data[0].body, 64);*/
+	while (data[iteration].valid == TRUE)
+	{
+		print_value(data[iteration].body);
+		print_value(data[iteration].message);
+		print_value(data[iteration].summary);
+		print_value(data[iteration].appname);
+		print_value(data[iteration].category);
+		print_value(data[iteration].default_action_name);
+		print_value(data[iteration].icon_path);
+		print_value(data[iteration].id);
+		print_value(data[iteration].timestamp);
+		print_value(data[iteration].timeout);
+		print_value(data[iteration].progress);
+		print_value(data[iteration].urgency);
+		print_value(data[iteration].stack_tag);
+		print_value(data[iteration].urls);
+		write(STDOUT_FILENO, "\n", 1);
+		iteration++;
+	}
 }
 
 void	fast_fetch_data(char *buffer, int fd_to_fetch, s_notif *data)
@@ -48,4 +130,8 @@ void	fast_fetch_data(char *buffer, int fd_to_fetch, s_notif *data)
 	if (nread == -1)
 		exit(err("An error occured while fetching the data.\n", ERR_FETCHING));
 	buffer[nread] = '\0';
+	if (nread == 44)
+		print("No Notifications\n");
+	else
+		extract_data(buffer, data, nread);
 }

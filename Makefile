@@ -1,6 +1,6 @@
 NAME = notifyuck
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 C_SOURCE = ./source/main.c \
 		   ./source/error.c \
