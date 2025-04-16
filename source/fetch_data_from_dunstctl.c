@@ -35,26 +35,17 @@ static void	skip_first_five_lines(char *line, size_t *size, FILE *stream)
 	free(line);
 }
 
-void	extract_data_from_fetch(FILE *stream)
+static void	extract_data(char *buffer, s_notif *data)
 {
-	char	*line;
-	size_t	size;
-	ssize_t	bytes;
 
-	line = NULL;
-	size = 0;
-	bytes = 0;
-	skip_first_five_lines(line, &size, stream);
-	while (TRUE)
-	{
-		bytes = getline(&line, &size, stream);
-		if (bytes == -1)
-			break ;
-		else
-		{
-			line[bytes] = 0;
-			print(line);
-		}
-	}
-	free(line);
+}
+
+void	fast_fetch_data(char *buffer, int fd_to_fetch, s_notif *data)
+{
+	ssize_t	nread;
+
+	nread = read(fd_to_fetch, buffer, BUFF_SIZE);
+	if (nread == -1)
+		exit(err("An error occured while fetching the data.\n", ERR_FETCHING));
+	buffer[nread] = '\0';
 }

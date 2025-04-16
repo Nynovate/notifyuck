@@ -15,7 +15,7 @@ C_OBJECT = ${C_SOURCE:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${C_OBJECT}
-	${CC} ${CFLAGS} ${C_OBJECT} -o ${NAME}
+	${CC} ${CFLAGS} ${C_OBJECT} -o ${NAME} -lbsd
 
 clean:
 	rm -f ${C_OBJECT}
