@@ -24,3 +24,23 @@ bool	fetch_and_store_dunstctl_history(int fd_to_store, char *envp[])
 	}
 	return (TRUE);
 }
+
+void	extract_data_from_fetch(FILE *stream)
+{
+	char	*line;
+	size_t	size;
+	ssize_t	bytes;
+
+	while (TRUE)
+	{
+		bytes = getline(&line, &size, stream);
+		if (bytes == -1)
+			break ;
+		else
+		{
+			line[bytes] = 0;
+			print(line);
+		}
+	}
+	free(line);
+}

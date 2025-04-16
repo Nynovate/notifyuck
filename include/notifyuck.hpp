@@ -24,5 +24,6 @@ typedef enum error
 e_error	err(char *s, e_error error_code);
 int		print(const char *str);
 bool	fetch_and_store_dunstctl_history(int fd_to_store, char *envp[]);
+void	extract_data_from_fetch(FILE *stream);
 
 #endif
