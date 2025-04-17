@@ -93,14 +93,13 @@ static void	extract_data(char *main_buffer, s_notif *data, ssize_t total_length)
 		data[index].urls = buffer;
 		buffer += 11;
 
-		if (strnstr(buffer, "\"data\" : ", 64) == NULL)
+		if (strnstr(buffer, "\"data\" : ", 256) == NULL)
 			break ;
 		else
 			index++;
 	}
 	int	iteration = 0;
 
-	/*write(STDOUT_FILENO, data[0].body, 64);*/
 	while (data[iteration].valid == TRUE)
 	{
 		print_value(data[iteration].body);
@@ -117,7 +116,7 @@ static void	extract_data(char *main_buffer, s_notif *data, ssize_t total_length)
 		print_value(data[iteration].urgency);
 		print_value(data[iteration].stack_tag);
 		print_value(data[iteration].urls);
-		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n\n", 2);
 		iteration++;
 	}
 }
