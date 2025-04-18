@@ -1,21 +1,19 @@
 NAME = notifyuck
-CC = gcc
+CC = c++
 CFLAGS = -Wall -Werror -Wextra -g
 
-C_SOURCE = ./source/main.c \
-		   ./source/error.c \
-		   ./source/print.c \
-		   ./source/fetch_data_from_dunstctl.c
+C_SOURCE = ./cpp_source/main.cpp \
+		   ./cpp_source/call_external.cpp
 
-C_OBJECT = ${C_SOURCE:.c=.o}
+C_OBJECT = ${C_SOURCE:.cpp=.o}
 
-.c.o:
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+.cpp.o:
+	${CC} ${CFLAGS} -c $< -o ${<:.cpp=.o}
 
 all: ${NAME}
 
 ${NAME}: ${C_OBJECT}
-	${CC} ${CFLAGS} ${C_OBJECT} -o ${NAME} -lbsd
+	${CC} ${CFLAGS} ${C_OBJECT} -o ${NAME}
 
 clean:
 	rm -f ${C_OBJECT}
