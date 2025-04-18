@@ -1,6 +1,6 @@
 #include "../include/notifyuck.hpp"
 
-void remove_chars(std::string &input, const std::string &to_remove)
+void RemoveChars(std::string &input, const std::string &to_remove)
 {
 	std::unordered_set<char> removal_set(to_remove.begin(), to_remove.end());
 
@@ -11,7 +11,7 @@ void remove_chars(std::string &input, const std::string &to_remove)
 	);
 }
 
-void replace_all_fast(std::string &str, const std::string &from, const std::string &to)
+void ReplaceAllOccurence(std::string &str, const std::string &from, const std::string &to)
 {
 	if (from.empty())
 		return;
@@ -37,10 +37,16 @@ void replace_all_fast(std::string &str, const std::string &from, const std::stri
 
 int	main(void)
 {
-	std::string	result;
+	std::string				result;
+	std::vector<NotifObj>	NotifData;
 
 	result = exec_and_get_output("dunstctl history");
-	remove_chars(result, "{} :[]");
+	RemoveChars(result, "{}:[]	");
+	ReplaceAllOccurence(result, "\n\"type\"", "");
+	ReplaceAllOccurence(result, "\"s\",\n\"data\"", "=");
+	ReplaceAllOccurence(result, "\"i\",\n\"data\"", "=");
+	ReplaceAllOccurence(result, "\"x\",\n\"data\"", "=");
+	ReplaceAllOccurence(result, "\n\n,\n", " | ");
 	std::cout << result << std::endl;
 	return (0);
 }
