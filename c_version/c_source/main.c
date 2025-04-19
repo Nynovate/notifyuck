@@ -28,6 +28,5 @@ int	main(int argc, char *argv[], char *envp[])
 			/*write(STDOUT_FILENO, __TEMPLATE_BUFFER, strlen(__TEMPLATE_BUFFER));*/
 		}
 	}
-
 	return (EXIT_SUCCESS);
 }

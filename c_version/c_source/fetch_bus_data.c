@@ -1,6 +1,6 @@
 #include "../include/notifyuck.hpp"
 
-void	get_information_from_dunst(char *__BUFFER, int fd)
+void	get_information_from_bus(char *__BUFFER, int fd)
 {
 	ssize_t	nread;
 
@@ -51,7 +51,7 @@ bool	fetch_bus_data(char *__BUFFER, char *envp[])
 	else
 	{
 		close(__FD[STDOUT_FILENO]);
-		get_information_from_dunst(__BUFFER, __FD[STDIN_FILENO]);
+		get_information_from_bus(__BUFFER, __FD[STDIN_FILENO]);
 		close(__FD[STDIN_FILENO]);
 		wait(&dunst_return_value);
 	}
