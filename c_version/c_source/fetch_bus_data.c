@@ -4,16 +4,21 @@ void	get_information_from_bus(char *__BUFFER, int fd)
 {
 	ssize_t	nread;
 
-	nread = read(fd, __BUFFER, __INTERNAL_BUFF__);
-	if (nread == -1)
-		exit(error("parent process: Failed to read pipe\n", __ERROR_PIPE_READING__));
+	while (true)
+	{
+		nread = read(fd, __BUFFER, __INTERNAL_BUFF__);
+		if (nread == -1)
+			exit(error("parent process: Failed to read pipe\n", __ERROR_PIPE_READING__));
+		else if (nread == 0)
+			break ;
+	}
 }
 
 bool	fetch_bus_data(char *__BUFFER, char *envp[])
 {
 	int	__FD[2];
 	int	dunst_pid;
-	int	dunst_return_value;
+	int	dunst_return_value = 0;
 
 	if (pipe(__FD) == __ERROR_FAILURE__)
 		exit(error("Failed to create a pipe, all operations are aborted\n", __ERROR_PIPE__));
@@ -48,8 +53,8 @@ bool	fetch_bus_data(char *__BUFFER, char *envp[])
 	{
 		close(__FD[STDOUT_FILENO]);
 		get_information_from_bus(__BUFFER, __FD[STDIN_FILENO]);
-		close(__FD[STDIN_FILENO]);
 		wait(&dunst_return_value);
+		close(__FD[STDIN_FILENO]);
 	}
 	if (dunst_return_value != __OK__)
 	{
