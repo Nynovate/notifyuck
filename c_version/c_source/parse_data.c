@@ -38,7 +38,8 @@ static size_t	end_value(char *__DATA)
 void	print_value(char *__DATA)
 {
 	if (*__DATA == '\"' && *(__DATA + 1) == '\"')
-		output("Empty variable");
+	{
+	}
 	else if (*__DATA == '\"')
 		write(STDOUT_FILENO, __DATA + 1, end_value(__DATA + 1));
 	else

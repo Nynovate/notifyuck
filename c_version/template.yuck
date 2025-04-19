@@ -1,0 +1,33 @@
+	(box	:class "notif_box"
+			:orientation "h"
+			:space-evenly false
+			(box	:class "box"
+					:orientation "h"
+					:space-evenly false
+					:width 550
+					(box	:class "icon_notification"
+							:halign "center"
+							:valign "center"
+							:style "background-image: url('{{ IconPath }}');"
+					)
+					(box	:class "box"
+							:orientation "v"
+							:space-evenly false
+							(label	:class "notif_label"
+									:halign "start"
+									:text "{{ Summary }} from {{ Appname }}"
+									:style "font-size: 16px; font-weight: bold; padding-top: 12px;"
+							)
+							(label	:class "notif_label"
+									:halign "start"
+									:text "{{ Body }}"
+									:style "font-size: 12px; padding-top: 4px;"
+							)
+					)
+			)
+			(button	:class "notif_button_label"
+		 			:onclick "dunstctl history-rm {{ Id }}"
+		 			:halign "end"
+		 			"X"
+			)
+	)
