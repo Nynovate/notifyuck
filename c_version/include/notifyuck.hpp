@@ -49,4 +49,4 @@ size_t	output(const char *str);
 e_err	error(const char *str, e_err __ERROR_CODE);
 bool	fetch_bus_data(char *__BUFFER, char *envp[]);
 void	parse_data(char *__BUFFER, s_notif *__OBJS);
-void	fetch_template(char *__TEMPLATE_BUFFER);
+e_err	fetch_template(char *__TEMPLATE_BUFFER);

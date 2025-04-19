@@ -18,12 +18,15 @@ int	main(int argc, char *argv[], char *envp[])
 	else
 	{
 		char	*__PTR_BUFFER = __BUFFER;
+		e_err	__CODE_ERROR;
 
 		__PTR_BUFFER += 12;
 		parse_data(__PTR_BUFFER, __NOTIFICATION_OBJECTS__);
-		/*output("(label :text \"HELL\")\n");*/
 		fetch_template(__TEMPLATE_BUFFER);
-		write(STDOUT_FILENO, __TEMPLATE_BUFFER, strlen(__TEMPLATE_BUFFER));
+		if (__CODE_ERROR == __OK__)
+		{
+			/*write(STDOUT_FILENO, __TEMPLATE_BUFFER, strlen(__TEMPLATE_BUFFER));*/
+		}
 	}
 
 	return (EXIT_SUCCESS);

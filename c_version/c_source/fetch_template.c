@@ -12,7 +12,7 @@ static void	read_template(char *__TEMPLATE_BUFFER, int __TEMPLATE)
 	}
 }
 
-void	fetch_template(char *__TEMPLATE_BUFFER)
+e_err	fetch_template(char *__TEMPLATE_BUFFER)
 {
 	char	*__PATH;
 	int		__TEMPLATE;
@@ -24,8 +24,7 @@ void	fetch_template(char *__TEMPLATE_BUFFER)
 		if (__TEMPLATE == __ERROR_FAILURE__)
 		{
 			output("(label :class \"label\" :text \"Can't open template.yuck. Try running notifyuck to look for the error\")\n");
-			error("The program can't open the template.yuck file. Make sure it located at the root of your custom eww folders, by default it is located at /home/$USER/.config/eww/\n", __ERROR_OPEN_TEMPLATE__);
-			return ;
+			return (error("The program can't open the template.yuck file. Make sure it located at the root of your custom eww folders, by default it is located at /home/$USER/.config/eww/\n", __ERROR_OPEN_TEMPLATE__));
 		}
 		read_template(__TEMPLATE_BUFFER, __TEMPLATE);
 	}
@@ -35,9 +34,9 @@ void	fetch_template(char *__TEMPLATE_BUFFER)
 		if (__TEMPLATE == __ERROR_FAILURE__)
 		{
 			output("(label :class \"label\" :text \"Can't open user custom template. Try running notifyuck to look for the error\")\n");
-			error("The program can't open the user custom template file\n", __ERROR_OPEN_TEMPLATE__);
-			return ;
+			return (error("The program can't open the user custom template file\n", __ERROR_OPEN_TEMPLATE__));
 		}
 		read_template(__TEMPLATE_BUFFER, __TEMPLATE);
 	}
+	return (__OK__);
 }
