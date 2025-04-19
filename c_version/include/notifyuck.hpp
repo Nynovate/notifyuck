@@ -49,7 +49,7 @@ typedef struct notif_obj
 size_t	output(const char *str);
 e_err	error(const char *str, e_err __ERROR_CODE);
 bool	fetch_bus_data(char *__BUFFER, char *envp[]);
-void	parse_data(char *__BUFFER, s_notif *__OBJS);
+void	parse_data(char *__BUFFER, s_notif *__OBJS, size_t *__PARSED_DATA);
 e_err	fetch_template(char *__TEMPLATE_BUFFER);
 void	print_value(char *__DATA);
 void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS);

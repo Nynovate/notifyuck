@@ -2,15 +2,17 @@
 
 void	get_information_from_bus(char *__BUFFER, int fd)
 {
+	size_t	bytes = 0;
 	ssize_t	nread;
 
 	while (true)
 	{
-		nread = read(fd, __BUFFER, __INTERNAL_BUFF__);
+		nread = read(fd, __BUFFER + bytes, __INTERNAL_BUFF__);
 		if (nread == -1)
 			exit(error("parent process: Failed to read pipe\n", __ERROR_PIPE_READING__));
 		else if (nread == 0)
 			break ;
+		bytes += nread;
 	}
 }
 
