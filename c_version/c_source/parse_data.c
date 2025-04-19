@@ -46,7 +46,7 @@ void	print_value(char *__DATA)
 		write(STDOUT_FILENO, __DATA, ((long)strchr(__DATA, '}') - (long)__DATA));
 }
 
-void	parse_data(char *__BUFFER, s_notif *__OBJS)
+void	parse_data(char *__BUFFER, s_notif *__OBJS, size_t *__PARSED_DATA)
 {
 	int		index;
 	char	*ptr;
@@ -72,6 +72,7 @@ void	parse_data(char *__BUFFER, s_notif *__OBJS)
 		assign_ptr(NULL, "\"urgency\":{\"type\":\"s\",\"data\":", &__OBJS[index].__URGENCY, &__BUFFER, -1);
 		assign_ptr(NULL, "\"stack_tag\":{\"type\":\"s\",\"data\":", &__OBJS[index].__STACK_TAG, &__BUFFER, -1);
 		assign_ptr(NULL, "\"urls\":{\"type\":\"s\",\"data\":", &__OBJS[index].__URLS, &__BUFFER, -1);
+		(*__PARSED_DATA)++;
 		index++;
 	}
 }
