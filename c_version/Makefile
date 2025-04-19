@@ -4,7 +4,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 C_SOURCE = ./c_source/main.c \
 		   ./c_source/output.c \
-		   ./c_source/fetch_dunst_data.c \
+		   ./c_source/fetch_bus_data.c \
 		   ./c_source/parse_data.c \
 		   ./c_source/fetch_template.c
 
