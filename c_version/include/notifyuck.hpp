@@ -6,6 +6,7 @@
 # include <bsd/string.h>
 # include <stdbool.h>
 # include <sys/wait.h>
+# include <stdio.h>
 # ifndef __INTERNAL_BUFF__
 #  define __INTERNAL_BUFF__ 110592
 # endif

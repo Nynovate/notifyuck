@@ -4,14 +4,9 @@ void	get_information_from_bus(char *__BUFFER, int fd)
 {
 	ssize_t	nread;
 
-	while (true)
-	{
-		nread = read(fd, __BUFFER, __INTERNAL_BUFF__);
-		if (nread == -1)
-			exit(error("parent process: Failed to read pipe\n", __ERROR_PIPE_READING__));
-		else if (nread == 0)
-			break ;
-	}
+	nread = read(fd, __BUFFER, __INTERNAL_BUFF__);
+	if (nread == -1)
+		exit(error("parent process: Failed to read pipe\n", __ERROR_PIPE_READING__));
 }
 
 bool	fetch_bus_data(char *__BUFFER, char *envp[])
@@ -27,6 +22,7 @@ bool	fetch_bus_data(char *__BUFFER, char *envp[])
 		exit(error("Failed to create a fork, all operations are aborted\n", __ERROR_FORK__));
 	else if (dunst_pid == 0)
 	{
+		setenv("DBUS_SESSION_BUS_ADDRESS", "unix:path=/run/user/1000/bus", 1);
 		close(__FD[STDIN_FILENO]);
 		dup2(__FD[STDOUT_FILENO], STDOUT_FILENO);
 		close(__FD[STDOUT_FILENO]);
@@ -34,7 +30,7 @@ bool	fetch_bus_data(char *__BUFFER, char *envp[])
 				"/usr/bin/busctl",
 				(char *[])
 				{
-					"busctl",
+					"/usr/bin/busctl",
 					"--user",
 					"--json=short",
 					"call",
@@ -56,6 +52,11 @@ bool	fetch_bus_data(char *__BUFFER, char *envp[])
 		wait(&dunst_return_value);
 	}
 	if (dunst_return_value != __OK__)
-		exit(error("busctl returned a [NOT OK] status, all operations are aborted\n", __ERROR_BUSCTL_NOT_OK__));
+	{
+		error("busctl returned a [NOT OK] status, all operations are aborted\n", __ERROR_BUSCTL_NOT_OK__);
+		printf("\033[33m[Code Error]: \033[0m[%d]\n", dunst_return_value);
+		fflush(stdout);
+		exit(__ERROR_BUSCTL_NOT_OK__);
+	}
 	return (true);
 }
