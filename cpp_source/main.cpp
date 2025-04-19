@@ -52,7 +52,7 @@ std::string	fetch_template_source(void)
 	if (TemplateFile == NULL)
 	{
 		std::cerr << "Cannot open template file.\n";
-		return ("");
+		return ("(label :class \"label\" :text \"An error occured\")\n");
 	}
 	while (fgets(Buffer.data(), Buffer.size(), TemplateFile) != nullptr)
 		temp += Buffer.data();
@@ -60,6 +60,8 @@ std::string	fetch_template_source(void)
 	return (temp);
 }
 
+/*#include <unistd.h>*/
+/*#include <string.h>*/
 void	write_output(NotifObj &Data, std::string Template)
 {
 	ReplaceAllOccurence(Template, "{{ Body }}", Data.getBody());
@@ -68,7 +70,16 @@ void	write_output(NotifObj &Data, std::string Template)
 	ReplaceAllOccurence(Template, "{{ Appname }}", Data.getAppname());
 	ReplaceAllOccurence(Template, "{{ Category }}", Data.getCategory());
 	ReplaceAllOccurence(Template, "{{ DefaultActionName }}", Data.getDefaultActionName());
-	ReplaceAllOccurence(Template, "{{ IconPath }}", Data.getIconPath());
+	if (Data.getIconPath().empty())
+	{
+		ReplaceAllOccurence(
+			Template,
+			"\t\t\t\t\t(box\t:class \"icon_notification\"\n\t\t\t\t\t\t\t:halign \"center\"\n\t\t\t\t\t\t\t:valign \"center\"\n\t\t\t\t\t\t\t:style \"background-image: url('{{ IconPath }}');\"\n\t\t\t\t\t)\n",
+			"\t\t\t\t\t(label\t:class \"notif_label\"\n\t\t\t\t\t\t\t:halign \"start\"\n\t\t\t\t\t\t\t:text \" \"\n\t\t\t\t\t\t\t:style \"font-size: 40px; margin: 7px;\"\n\t\t\t\t\t)\n"
+		);
+	}
+	else
+		ReplaceAllOccurence(Template, "{{ IconPath }}", Data.getIconPath());
 	ReplaceAllOccurence(Template, "{{ Id }}", Data.getId());
 	ReplaceAllOccurence(Template, "{{ TimeStamp }}", Data.getTimeStamp());
 	ReplaceAllOccurence(Template, "{{ TimeOut }}", Data.getTimeOut());
@@ -76,7 +87,8 @@ void	write_output(NotifObj &Data, std::string Template)
 	ReplaceAllOccurence(Template, "{{ Urgency }}", Data.getUrgency());
 	ReplaceAllOccurence(Template, "{{ StackTag }}", Data.getStackTag());
 	ReplaceAllOccurence(Template, "{{ Urls }}", Data.getUrls());
-	std::cout << Template;
+	std::cout << Template << std::endl;
+	/*write(STDOUT_FILENO, Template.c_str(), strlen(Template.c_str()));*/
 }
 
 int	main(void)
@@ -94,97 +106,94 @@ int	main(void)
 		std::cerr << "\033[31mERROR:\033[0m notifyuck: can't execute dunstctl. Make sure that you have dunst installed on your computer using the command 'which dunst', if nothing appears, you didn't have it installed on your system.\n";
 		exit (-1);
 	}
-	RemoveChars(result, "{}:[]	");
-	ReplaceAllOccurence(result, "\n\"type\"", "");
-	ReplaceAllOccurence(result, "\"s\",\n\"data\"", "=");
-	ReplaceAllOccurence(result, "\"i\",\n\"data\"", "=");
-	ReplaceAllOccurence(result, "\"x\",\n\"data\"", "=");
-	ReplaceAllOccurence(result, "    =  ", "=");
-	ReplaceAllOccurence(result, ",\n", "");
-
-	std::istringstream			Streamer(result);
-	std::string					words;
-	size_t						Pos;
+	/*RemoveChars(result, "{}:[]	");*/
+	/*ReplaceAllOccurence(result, "\n\"type\"", "");*/
+	/*ReplaceAllOccurence(result, "<b>", "");*/
+	/*ReplaceAllOccurence(result, "</b>", "");*/
+	/*ReplaceAllOccurence(result, "<i>", "");*/
+	/*ReplaceAllOccurence(result, "</i>", "");*/
+	/*ReplaceAllOccurence(result, "\"s\",\n\"data\"", "=");*/
+	/*ReplaceAllOccurence(result, "\"i\",\n\"data\"", "=");*/
+	/*ReplaceAllOccurence(result, "\"x\",\n\"data\"", "=");*/
+	/*ReplaceAllOccurence(result, "    =  ", "=");*/
+	/*ReplaceAllOccurence(result, ",\n", "");*/
+	/**/
+	/*std::istringstream			Streamer(result);*/
+	/*std::string					words;*/
+	/*size_t						Pos;*/
 	/*std::vector<std::string>	Splitted;*/
-
-	getline(Streamer, words);
-	while (getline(Streamer, words))
-	{
-		if (words.empty() || words[0] == '\n')
-			continue ;
-		Pos = words.find("=");
-		Tmp.setBody(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setMessage(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setSummary(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setAppname(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setCategory(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setDefaultActionName(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setIconPath(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setId(words.substr(Pos + 1));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setTimeStamp(words.substr(Pos + 1));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setTimeOut(words.substr(Pos + 1));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setProgress(words.substr(Pos + 1));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setUrgency(words.substr(Pos + 2, words.size() - Pos - 3));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setStackTag(words.substr(Pos + 1));
-
-		getline(Streamer, words);
-		Pos = words.find("=");
-		Tmp.setUrls(words.substr(Pos + 2, words.size() - Pos - 3));
-		NotifData.push_back(Tmp);
+	/**/
+	/*getline(Streamer, words);*/
+	/*while (getline(Streamer, words))*/
+	/*{*/
+	/*	if (words.empty() || words[0] == '\n')*/
+	/*		continue ;*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setBody(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setMessage(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setSummary(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setAppname(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setCategory(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setDefaultActionName(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setIconPath(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setId(words.substr(Pos + 1));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setTimeStamp(words.substr(Pos + 1));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setTimeOut(words.substr(Pos + 1));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setProgress(words.substr(Pos + 1));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setUrgency(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setStackTag(words.substr(Pos + 1));*/
+	/**/
+	/*	getline(Streamer, words);*/
+	/*	Pos = words.find("=");*/
+	/*	Tmp.setUrls(words.substr(Pos + 2, words.size() - Pos - 3));*/
+	/*	NotifData.push_back(Tmp);*/
 		/*Splitted.push_back(words);*/
-
-	}
-
-	std::string	Template;
-
-	Template = fetch_template_source();
-	if (Template.empty())
-		return (-2);
-	std::cout << "(box	:class \"box\"" << std::endl;
-	std::cout << "	:orientation \"v\"" << std::endl;
-	std::cout << "	:space-evenly false" << std::endl;
-	for (std::vector<NotifObj>::iterator It = NotifData.begin(); It != NotifData.end(); It++)
-	{
-		write_output(*It, Template);
-	}
-	std::cout << ")" << std::endl;
-	std::cout << std::endl;
+	/**/
+	/*}*/
+	/**/
+	/*std::string	Template;*/
+	/**/
+	/*Template = fetch_template_source();*/
+	/*std::cout << "(box :class \"box\" :orientation \"v\" :space-evenly false\n";*/
+	/*for (std::vector<NotifObj>::iterator It = NotifData.begin(); It != NotifData.end(); It++)*/
+	/*	write_output(*It, Template);*/
+	/*std::cout << ")" << std::endl;*/
 
 	return (0);
 }
