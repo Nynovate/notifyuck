@@ -260,7 +260,7 @@ Example: '(label :class \"label\" :text \"No notifications\")'\n\n\
 notifications in dunst directly. This makes notifyuck output only the N most recent objects.\n\n\
 \033[1m\033[33m -gl, --gen-inline:\033[0m Translate the template.yuck into an inline yuck that SHOULD directly\n\
 just be pasted into your (defpoll variable). Why? Because it directly take into account the PAINFUL Escaping of '\"' character.\n\n\
-\033[31mNote: \033[0mIt is only valid if you want to directly call notifyuck in defpoll instead of wrapping it to a scripts.\n\
+\033[31mNote: \033[0mIt is only necessary if you want to directly call notifyuck in defpoll instead of wrapping it to a scripts.\n\
 ");
 	exit(0);
 }

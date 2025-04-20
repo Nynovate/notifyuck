@@ -1,9 +1,11 @@
 #include "../include/notifyuck.hpp"
 
-void	parse_args(s_rules *__RULES, int argc, char *argv[])
+void	parse_args(s_rules *__RULES, int argc, char *argv[], char *__BUFFER)
 {
 	int	pos = 1;
 
+	if ((argc == 2 || argc == 3) && (!strncmp(argv[1], "-gl", 4) || !strncmp(argv[1], "--gen-inline", 13)))
+		translate_inline(__BUFFER, argc, argv);
 	while (pos < argc)
 	{
 		if (!strncmp(argv[pos], "-u", 3) || !strncmp(argv[pos], "--usage", 8))

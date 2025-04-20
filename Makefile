@@ -7,7 +7,8 @@ C_SOURCE = ./c_source/main.c \
 		   ./c_source/fetch_bus_data.c \
 		   ./c_source/parse_data.c \
 		   ./c_source/fetch_template.c \
-		   ./c_source/parse_args.c
+		   ./c_source/parse_args.c \
+		   ./c_source/translate_inline.c
 
 C_OBJECT = ${C_SOURCE:.c=.o}
 

@@ -12,7 +12,7 @@ int	main(int argc, char *argv[], char *envp[])
 	__RULES.__ARG_MAX_NOTIF = -1;
 	if (argc != 1)
 	{
-		parse_args(&__RULES, argc, argv);
+		parse_args(&__RULES, argc, argv, __BUFFER);
 		if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))
 			output_help();
 	}
