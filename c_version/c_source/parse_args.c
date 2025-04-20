@@ -1,6 +1,6 @@
 #include "../include/notifyuck.hpp"
 
-bool	parse_args(s_rules *__RULES, int argc, char *argv[])
+void	parse_args(s_rules *__RULES, int argc, char *argv[])
 {
 	int	pos = 1;
 
@@ -69,7 +69,4 @@ bool	parse_args(s_rules *__RULES, int argc, char *argv[])
 		}
 		pos++;
 	}
-	output("\n");
-	exit(0);
-	return (true);
 }

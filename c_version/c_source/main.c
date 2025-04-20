@@ -7,32 +7,42 @@ int	main(int argc, char *argv[], char *envp[])
 	char	__TEMPLATE_BUFFER[__INTERNAL_BUFF__] = {0};
 	s_notif	__NOTIFICATION_OBJECTS__[__MAX_NOTIF__] = {0};
 	size_t	len;
-	size_t	__PARSED_DATA;
+	ssize_t	__PARSED_DATA;
 
+	__RULES.__ARG_MAX_NOTIF = -1;
 	if (argc != 1)
 	{
 		parse_args(&__RULES, argc, argv);
 		if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))
 			output_help();
 	}
+	fetch_bus_data(__BUFFER, envp);
+	len = strlen(__BUFFER);
+	if (len < 31)
+		output("(label :class \"label\" :text \"No Notifications\")\n");
 	else
 	{
-		fetch_bus_data(__BUFFER, envp);
-		len = strlen(__BUFFER);
-		if (len < 31)
-			output("(label :class \"label\" :text \"No Notifications\")\n");
+		char	*__PTR_BUFFER = __BUFFER;
+		e_err	__CODE_ERROR;
+		ssize_t	iteration = 0;
+	
+		__PTR_BUFFER += 12;
+		parse_data(__PTR_BUFFER, __NOTIFICATION_OBJECTS__, &__PARSED_DATA, __RULES.__ARG_MAX_NOTIF);
+		if (__RULES.__ARG_TEMPLATE != NULL)
+		{
+			output("(box :class \"box\" :orientation \"v\" :space-evenly false\n");
+			while (iteration < __PARSED_DATA)
+			{
+				output_notifications(__RULES.__ARG_TEMPLATE, &__NOTIFICATION_OBJECTS__[iteration]);
+				iteration++;
+			}
+			output(")\n");
+		}
 		else
 		{
-			char	*__PTR_BUFFER = __BUFFER;
-			e_err	__CODE_ERROR;
-		
-			__PTR_BUFFER += 12;
-			parse_data(__PTR_BUFFER, __NOTIFICATION_OBJECTS__, &__PARSED_DATA);
 			__CODE_ERROR = fetch_template(__TEMPLATE_BUFFER);
 			if (__CODE_ERROR == __OK__)
 			{
-				size_t	iteration = 0;
-		
 				output("(box :class \"box\" :orientation \"v\" :space-evenly false\n");
 				while (iteration < __PARSED_DATA)
 				{

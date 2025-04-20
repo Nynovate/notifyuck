@@ -21,6 +21,7 @@ static size_t	block_size(char *__TEMPLATE_BUFFER, size_t *__MOVE, ssize_t *__IND
 	size_t	count = 0;
 
 	*__INDEX = -1;
+	*__MOVE = 0;
 	while (*__TEMPLATE_BUFFER)
 	{
 		if (!strncmp(__TEMPLATE_BUFFER, "{{ ", 3))
@@ -153,8 +154,11 @@ void	output_help(void)
 	output("EASY EWW NOTIFICATION CENTER!!!\n");
 	output("\033[1mUsage:\033[0m notifyuck [OPTIONS]\n");
 	output("\nAvalaible options:\n");
-	output("\033[1m-h, --help:\033[0m		Print this information text\n");
-	output("\033[1m-u, --usage:\033[0m		Print a clear description about all the feature of this program\n");
+	output("\033[1m-h,  --help:\033[0m			Print this information text.\n");
+	output("\033[1m-u,  --usage:\033[0m			Print a clear description about all the feature of this program.\n");
+	output("\033[1m-ts, --template-string:\033[0m		Use the next argument as template string instead of fetching template.yuck.\n");
+	output("\033[1m-te, --template-empty:\033[0m		Use the next argument as template string if there is no notifications.\n");
+	output("\033[1m-mn, --max-notifications:\033[0m	Generate only a N maximum of yuck object.\n");
 }
 
 void	output_usage(void)

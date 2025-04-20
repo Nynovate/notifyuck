@@ -46,7 +46,7 @@ void	print_value(char *__DATA)
 		write(STDOUT_FILENO, __DATA, ((long)strchr(__DATA, '}') - (long)__DATA));
 }
 
-void	parse_data(char *__BUFFER, s_notif *__OBJS, size_t *__PARSED_DATA)
+void	parse_data(char *__BUFFER, s_notif *__OBJS, ssize_t *__PARSED_DATA, ssize_t __MAX)
 {
 	int		index;
 	char	*ptr;
@@ -55,7 +55,7 @@ void	parse_data(char *__BUFFER, s_notif *__OBJS, size_t *__PARSED_DATA)
 	while (true)
 	{
 		ptr = strnstr(__BUFFER, "\"body\":{\"type\":\"s\",\"data\":", 256);
-		if (!ptr)
+		if (!ptr || (__MAX != -1 && *__PARSED_DATA > __MAX))
 			break ;
 		__OBJS[index].__VALID_SLOT = true;
 		assign_ptr(ptr, NULL, &__OBJS[index].__BODY, &__BUFFER, 26);
