@@ -179,12 +179,12 @@ void	output_help(void)
 void	output_usage(void)
 {
 	output("\033[1mWhat the hell is notifyuck?\033[0m\n\
-It is a C program that can transform all notifications in dunstctl history into a yuck object that can be used with Eww(Elkowar's Wicky Widgets)\n\n\
+	It is a C program that can transform all notifications in dunstctl history into a yuck object that can be used with Eww(Elkowar's Wicky Widgets)\n\n\
 \033[1mHow it works?\033[0m\n\
-notifyuck will call and store the output of busctl, parse the data of all notification, output a yuck object based on the given template.\n\
-All of those operations are done on the stack, no dynamic allocation are done during the entire process.\n\n\
+	notifyuck will call and store the output of busctl, parse the data of all notification, output a yuck object based on the given template.\n\
+	All of those operations are done on the stack, no dynamic allocation are done during the entire process.\n\n\
 \033[1mWhat is a template?\033[0m\n\
-A template is a file that contains the yuck object that will be used as 'template' to generate all the notification.\n\n\
+	A template is a file that contains the yuck object that will be used as blueprint to generate all the notification.\n\n\
 \033[4mExample of a template:\033[0m\n\
 			(box	:class \"notif_box\"\n\
 				:orientation \"h\"\n\
@@ -221,46 +221,73 @@ A template is a file that contains the yuck object that will be used as 'templat
 			)\
 \n\nThe character in \033[33myellow\033[0m are the character that will be substitued by the value of the notification data.\n\
 \033[1mList of possible substitution:\033[0m\n\
- {0}  -> BODY;\n\
- {1}  -> MESSAGE;\n\
- {2}  -> SUMMARY;\n\
- {3}  -> APPNAME;\n\
- {4}  -> CATEGORY;\n\
- {5}  -> DEFAULT_ACTION_NAME;\n\
- {6}  -> ICON_PATH;\n\
- {7}  -> ID;\n\
- {8}  -> TIMESTAMP;\n\
- {9}  -> TIMEOUT;\n\
- {10} -> PROGRESS;\n\
- {11} -> URGENCY;\n\
- {12} -> STACK_TAG;\n\
- {13} -> URLS;\n\n\
-\033[31m\033[1m\033[4mNote:\033[0m\n\
-  - It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally \\{0}.\n\
-  - notifyuck doesn't check for any error inside the given template for performance reason, you should always make sure to test that your template work directly with Eww.\n\n\
+	{0}  -> BODY;\n\
+	{1}  -> MESSAGE;\n\
+	{2}  -> SUMMARY;\n\
+	{3}  -> APPNAME;\n\
+	{4}  -> CATEGORY;\n\
+	{5}  -> DEFAULT_ACTION_NAME;\n\
+	{6}  -> ICON_PATH;\n\
+	{7}  -> ID;\n\
+	{8}  -> TIMESTAMP;\n\
+	{9}  -> TIMEOUT;\n\
+	{10} -> PROGRESS;\n\
+	{11} -> URGENCY;\n\
+	{12} -> STACK_TAG;\n\
+	{13} -> URLS;\n\n\
+	\033[31m\033[1m\033[4mNote:\033[0m\n\
+	- It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally \\{0}.\n\
+	- notifyuck doesn't check for any error inside the given template for performance reason, you should always make sure to test that your template work directly with Eww.\n\n\
 \033[1m\033[4mnotifyuck options:\033[0m\n\
-\033[1m\033[33m -ts, --template-string:\033[0m you can directly pass an inline yuck to the program for better performance.\n\
-In normal case, the template string are read from the DISK, and sending data from the DISK to the RAM is extremely slow!\n\
-Using this options can help to reduce the overhead. The best workflow I found, is to first\n\
-make a working notification mockup and test it directly in Eww. Then I copy that Eww objects and paste it inside\n\
-template.yuck. When I'm happy with the final result, I will directly create an inline of that same template.yuck with the\n\
-built-in feature --gen-inline that will be directly just pasted to Eww.\n\n\
-\033[31mNote: \033[0m It is important to note that the template string should be sent as a one big argument to the program!\n\
-Example:\n\n\
-This is the inline of the previous template used in my Eww Config:\n\n\
+\033[1m\033[33m -ts, --template-string:\033[0m\n\
+	You can directly pass an inline yuck to the program for better performance.\n\
+	In normal case, the template string are read from the DISK, and sending data from the DISK to the RAM is extremely slow!\n\
+	Using this options can help to reduce the overhead. The best workflow I found, is to first\n\
+	make a working notification mockup and test it directly in Eww. From then, I would copy that Eww objects and paste it inside\n\
+	template.yuck. When I'm happy with the final result, I will directly create an inline of that same template.yuck with the\n\
+	built-in feature --gen-inline that will be directly just pasted to Eww.\n\n\
+	\033[31m\033[4m\033[1mNote:\033[0m\n\
+	It is important to note that the template string should be sent as a one big argument to the program!\n\
+	Example:\n\n\
+	This is the inline of the previous template used in my Eww Config:\n\n\
 (defpoll NotificationData	:interval \"10s\"\n\
             './scripts/notif/c_version/notifyuck -ts \\\"(box :class \\\\\"notif_box\\\\\" :orientation \\\\\"h\\\\\" :space-evenly false(box :class \\\\\"box\\\\\" :orientation \\\\\"h\\\\\" :space-evenly false :width 550 (box :class \\\\\"icon_notification\\\\\" :halign \\\\\"center\\\\\" :valign \\\\\"center\\\\\" :style \\\\\"background-image: url(\'{6}\');\\\\\") (box :class \\\\\"box\\\\\" :orientation \\\\\"v\\\\\" :space-evenly false (label :class \\\\\"notif_label\\\\\" :halign \\\\\"start\\\\\" :text \\\\\"{2} from {3}\\\\\" :style \\\\\"font-size: 16px; font-weight: bold; padding-top: 12px;\\\\\") (label :class \\\\\"notif_label\\\\\" :halign \\\\\"start\\\\\" :text \\\\\"{0}\\\\\" :style \\\\\"font-size: 12px; padding-top: 4px;\\\\\"))) (button :class \\\\\"notif_button_label\\\\\" :onclick \\\\\"dunstctl history-rm {7}\\\\\" :halign \\\\\"end\\\\\" \\\\\"X\\\\\"))\\\"'\n\
 )\n\n\
-You may wonder why there is so much ANSI Escape character, since the program wait for the template string to be entirely in one argument\n\
-it become really tricky to write it in the correct way in Eww and Sh.\n\
-No need to say that manually writing this will be painful!\n\n\
-\033[1m\033[33m -te, --template-empty:\033[0m If there is no notifications in the history, make notifyuck output this yuck string.\n\
-Example: '(label :class \"label\" :text \"No notifications\")'\n\n\
-\033[1m\033[33m -so, --show-only:\033[0m Output only N Yuck objects, notifyuck can't go above 20 notifications\n\
-This makes notifyuck output only the N most recent objects.\n\n\
-\033[1m\033[33m -gl, --gen-inline:\033[0m Translate the template.yuck into an inline yuck that SHOULD directly\n\
-just be pasted into your (defpoll variable). Why? Because it directly take into account the PAINFUL Escaping of '\"' character.\n\n\
-\033[31mNote: \033[0mIt is only necessary if you want to directly call notifyuck in defpoll instead of wrapping it around a script.\n\
+	You may wonder why there is so much ANSI Escape character, since the program wait for the template string to be entirely in one argument\n\
+	it become really tricky to write it in the correct way in Eww and Sh.\n\
+	No need to say that manually writing this will be painful!\n\n\
+\033[1m\033[33m -te, --template-empty:\033[0m\n\
+	If there is no notifications in the history, make notifyuck output this yuck string.\n\
+Example:\n\
+	'(label :class \"label\" :text \"No notifications\")'\n\n\
+\033[1m\033[33m -so, --show-only:\033[0m\n\
+	Output only N Yuck objects, notifyuck can't go above 20 notifications\n\
+	This makes notifyuck output only the N most recent objects.\n\n\
+\033[1m\033[33m -gl, --gen-inline:\033[0m\n\
+	Translate the template.yuck into an inline yuck that SHOULD directly\n\
+	just be pasted into your (defpoll variable). Why? Because it directly take into account the PAINFUL Escaping of '\"' character.\n\n\
+	\033[31m\033[4m\033[1mNote:\033[0m\n\
+	It is only necessary if you want to directly call notifyuck in defpoll instead of wrapping it around a script.\n\n\
+\033[1mAUTHOR:\033[0m\n\
+	Written by RAKOTOARIVONY Razanajohary Ny Hasina\n\n\
+\033[1mCOPYRIGHTS:\033[0m\n\
+	MIT License\n\n\
+	Copyright (c) 2025 RAKOTOARIVONY Razanajohary Ny Hasina\n\
+	Permission is hereby granted, free of charge, to any person obtaining a copy\n\
+	of this software and associated documentation files (the \"Software\"), to deal\n\
+	in the Software without restriction, including without limitation the rights\n\
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n\
+	copies of the Software, and to permit persons to whom the Software is\n\
+	furnished to do so, subject to the following conditions:\n\
+	The above copyright notice and this permission notice shall be included in all\n\
+	copies or substantial portions of the Software.\n\
+	THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n\
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n\
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n\
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n\
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n\
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n\
+	SOFTWARE.\n\
 ");
 	exit(0);
 }
