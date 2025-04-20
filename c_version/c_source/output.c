@@ -245,7 +245,7 @@ Using this options can help to reduce the overhead. The best workflow I found, i
 make a working notification mockup and test it directly in Eww. Then I copy that Eww objects and paste it inside\n\
 template.yuck. When I'm happy with the final result, I will directly create an inline of that same template.yuck with the\n\
 built-in feature --gen-inline that will be directly just pasted to Eww.\n\n\
-\033[31mNote: \033[0m It is important to note that the template string should be sent as a one big argument to the program!.\n\
+\033[31mNote: \033[0m It is important to note that the template string should be sent as a one big argument to the program!\n\
 Example:\n\n\
 This is the inline of the previous template used in my Eww Config:\n\n\
 (defpoll NotificationData	:interval \"10s\"\n\
