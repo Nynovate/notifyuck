@@ -16,7 +16,7 @@ e_err	error(const char *str, e_err __ERROR_CODE)
 	return (__ERROR_CODE);
 }
 
-static size_t	block_size(char *__TEMPLATE_BUFFER, size_t *__MOVE, ssize_t *__INDEX)
+static size_t	block_size(char *__TEMPLATE_BUFFER, ssize_t *__MOVE, ssize_t *__INDEX)
 {
 	size_t	count = 0;
 
@@ -24,89 +24,94 @@ static size_t	block_size(char *__TEMPLATE_BUFFER, size_t *__MOVE, ssize_t *__IND
 	*__MOVE = 0;
 	while (*__TEMPLATE_BUFFER)
 	{
-		if (!strncmp(__TEMPLATE_BUFFER, "{{ ", 3))
+		if (*__TEMPLATE_BUFFER == '\\')
 		{
-			if (!strncmp(__TEMPLATE_BUFFER + 3, "Body }}", 7))
+			*__MOVE = -1;
+			break ;
+		}
+		if (!strncmp(__TEMPLATE_BUFFER, "{", 1))
+		{
+			if (!strncmp(__TEMPLATE_BUFFER + 1, "0}", 2))
 			{
-				*__MOVE = 10;
+				*__MOVE = 3;
 				*__INDEX = 0;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Message }}", 10))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "1}", 2))
 			{
-				*__MOVE = 13;
+				*__MOVE = 3;
 				*__INDEX = 1;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Summary }}", 10))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "2}", 2))
 			{
-				*__MOVE = 13;
+				*__MOVE = 3;
 				*__INDEX = 2;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Appname }}", 10))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "3}", 2))
 			{
-				*__MOVE = 13;
+				*__MOVE = 3;
 				*__INDEX = 3;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Category }}", 11))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "4}", 2))
 			{
-				*__MOVE = 14;
+				*__MOVE = 3;
 				*__INDEX = 4;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "DefaultActionName }}", 20))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "5}", 2))
 			{
-				*__MOVE = 23;
+				*__MOVE = 3;
 				*__INDEX = 5;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "IconPath }}", 11))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "6}", 2))
 			{
-				*__MOVE = 14;
+				*__MOVE = 3;
 				*__INDEX = 6;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Id }}", 5))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "7}", 2))
 			{
-				*__MOVE = 8;
+				*__MOVE = 3;
 				*__INDEX = 7;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Timestamp }}", 12))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "8}", 2))
 			{
-				*__MOVE = 15;
+				*__MOVE = 3;
 				*__INDEX = 8;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Timeout }}", 10))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "9}", 2))
 			{
-				*__MOVE = 13;
+				*__MOVE = 3;
 				*__INDEX = 9;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Progress }}", 11))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "10}", 3))
 			{
-				*__MOVE = 14;
+				*__MOVE = 4;
 				*__INDEX = 10;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Urgency }}", 10))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "11}", 3))
 			{
-				*__MOVE = 13;
+				*__MOVE = 4;
 				*__INDEX = 11;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "StackTag }}", 11))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "12}", 3))
 			{
-				*__MOVE = 14;
+				*__MOVE = 4;
 				*__INDEX = 12;
 				break ;
 			}
-			else if (!strncmp(__TEMPLATE_BUFFER + 3, "Urls }}", 7))
+			else if (!strncmp(__TEMPLATE_BUFFER + 1, "13}", 3))
 			{
-				*__MOVE = 10;
+				*__MOVE = 4;
 				*__INDEX = 13;
 				break ;
 			}
@@ -119,7 +124,7 @@ static size_t	block_size(char *__TEMPLATE_BUFFER, size_t *__MOVE, ssize_t *__IND
 
 void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS)
 {
-	size_t	__MOVE_COUNT;
+	ssize_t	__MOVE_COUNT;
 	size_t	__BLOCK;
 	ssize_t	__INDEX = -1;
 	char	*__CONTAINERS[14] = {
@@ -143,7 +148,15 @@ void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS)
 	{
 		__BLOCK = block_size(__TEMPLATE_BUFFER, &__MOVE_COUNT, &__INDEX);
 		write(STDOUT_FILENO, __TEMPLATE_BUFFER, __BLOCK);
-		__TEMPLATE_BUFFER += __BLOCK + __MOVE_COUNT;
+		if (__MOVE_COUNT == -1)
+		{
+			__TEMPLATE_BUFFER += __BLOCK + 1;
+			write(STDOUT_FILENO, __TEMPLATE_BUFFER, 1);
+			__TEMPLATE_BUFFER++;
+			continue ;
+		}
+		else
+			__TEMPLATE_BUFFER += __BLOCK + __MOVE_COUNT;
 		if (__INDEX != -1)
 			print_value(__CONTAINERS[__INDEX]);
 	}
@@ -206,16 +219,16 @@ A template is a file that contains the yuck object that will be used as 'templat
 			)\
 \n\nThe character in \033[33myellow\033[0m are the character that will be substitued by the value of the notification data.\n\
 \033[1mList of possible substitution:\033[0m\n\
- {0} -> BODY;\n\
- {1} -> MESSAGE;\n\
- {2} -> SUMMARY;\n\
- {3} -> APPNAME;\n\
- {4} -> CATEGORY;\n\
- {5} -> DEFAULT_ACTION_NAME;\n\
- {6} -> ICON_PATH;\n\
- {7} -> ID;\n\
- {8} -> TIMESTAMP;\n\
- {9} -> TIMEOUT;\n\
+ {0}  -> BODY;\n\
+ {1}  -> MESSAGE;\n\
+ {2}  -> SUMMARY;\n\
+ {3}  -> APPNAME;\n\
+ {4}  -> CATEGORY;\n\
+ {5}  -> DEFAULT_ACTION_NAME;\n\
+ {6}  -> ICON_PATH;\n\
+ {7}  -> ID;\n\
+ {8}  -> TIMESTAMP;\n\
+ {9}  -> TIMEOUT;\n\
  {10} -> PROGRESS;\n\
  {11} -> URGENCY;\n\
  {12} -> STACK_TAG;\n\

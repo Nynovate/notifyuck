@@ -7,7 +7,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char	__TEMPLATE_BUFFER[__INTERNAL_BUFF__] = {0};
 	s_notif	__NOTIFICATION_OBJECTS__[__MAX_NOTIF__] = {0};
 	size_t	len;
-	ssize_t	__PARSED_DATA;
+	ssize_t	__PARSED_DATA = 0;
 
 	__RULES.__ARG_MAX_NOTIF = -1;
 	if (argc != 1)

@@ -8,25 +8,25 @@
 					(box	:class "icon_notification"
 							:halign "center"
 							:valign "center"
-							:style "background-image: url('{{ IconPath }}');"
+							:style "background-image: url('{6}');"
 					)
 					(box	:class "box"
 							:orientation "v"
 							:space-evenly false
 							(label	:class "notif_label"
 									:halign "start"
-									:text "{{ Summary }} from {{ Appname }}"
+									:text "{2} from {3}"
 									:style "font-size: 16px; font-weight: bold; padding-top: 12px;"
 							)
 							(label	:class "notif_label"
 									:halign "start"
-									:text "{{ Body }}"
+									:text "{0}"
 									:style "font-size: 12px; padding-top: 4px;"
 							)
 					)
 			)
 			(button	:class "notif_button_label"
-		 			:onclick "dunstctl history-rm {{ Id }}"
+		 			:onclick "dunstctl history-rm \{7}"
 		 			:halign "end"
 		 			"X"
 			)
