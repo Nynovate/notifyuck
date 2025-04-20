@@ -165,13 +165,14 @@ void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS)
 void	output_help(void)
 {
 	output("EASY EWW NOTIFICATION CENTER!!!\n");
-	output("\033[1mUsage:\033[0m notifyuck [OPTIONS]\n");
+	output("\033[1mUsage:\033[0m notifyuck [OPTIONS] [VALUE] ...\n");
 	output("\nAvalaible options:\n");
 	output("\033[1m-h,  --help:\033[0m			Print this information text.\n");
 	output("\033[1m-u,  --usage:\033[0m			Print a clear description about all the feature of this program.\n");
 	output("\033[1m-ts, --template-string:\033[0m		Use the next argument as template string instead of fetching template.yuck.\n");
 	output("\033[1m-te, --template-empty:\033[0m		Use the next argument as template string if there is no notifications.\n");
 	output("\033[1m-mn, --max-notifications:\033[0m	Generate only a N maximum of yuck object.\n");
+	output("\033[1m-gl, --gen-inline:\033[0m		Translate the template.yuck file into a correct inline Eww object.\n");
 	exit(0);
 }
 
@@ -180,7 +181,8 @@ void	output_usage(void)
 	output("\033[1mWhat the hell is notifyuck?\033[0m\n\
 It is a C program that can transform all notifications in dunstctl history into a yuck object that can be used with Eww(Elkowar's Wicky Widgets)\n\n\
 \033[1mHow it works?\033[0m\n\
-notifyuck will call and store the output of busctl, parse the data of all notification, output a yuck object based on the given template. All of those operations are done on the stack, no dynamic allocation are done during the entire process.\n\n\
+notifyuck will call and store the output of busctl, parse the data of all notification, output a yuck object based on the given template.\n\
+All of those operations are done on the stack, no dynamic allocation are done during the entire process.\n\n\
 \033[1mWhat is a template?\033[0m\n\
 A template is a file that contains the yuck object that will be used as 'template' to generate all the notification.\n\n\
 \033[4mExample of a template:\033[0m\n\
@@ -236,6 +238,29 @@ A template is a file that contains the yuck object that will be used as 'templat
 \033[31m\033[1m\033[4mNote:\033[0m\n\
   - It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally \\{0}.\n\
   - notifyuck doesn't check for any error inside the given template for performance reason, you should always make sure to test that your template work directly with Eww.\n\n\
-\033[1mnotifyuck Features:\033[0m\n");
+\033[1m\033[4mnotifyuck options:\033[0m\n\
+\033[1m\033[33m -ts, --template-string:\033[0m you can directly pass an inline yuck to the program for better performance.\n\
+In normal case, the template string are read from the DISK, and sending data from the DISK to the RAM is extremely slow!\n\
+Using this options can help to reduce the overhead. The best workflow I found, is to first\n\
+make a working notification mockup and test it directly in Eww. Then I copy that Eww objects and paste it inside\n\
+template.yuck. When I'm happy with the final result, I will directly create an inline of that same template.yuck with the\n\
+built-in feature --gen-inline that will be directly just pasted to Eww.\n\n\
+\033[31mNote: \033[0m It is important to note that the template string should be sent as a one big argument to the program!.\n\
+Example:\n\n\
+This is the inline of the previous template used in my Eww Config:\n\n\
+(defpoll NotificationData	:interval \"10s\"\n\
+            './scripts/notif/c_version/notifyuck -ts \\\"(box :class \\\\\"notif_box\\\\\" :orientation \\\\\"h\\\\\" :space-evenly false(box :class \\\\\"box\\\\\" :orientation \\\\\"h\\\\\" :space-evenly false :width 550 (box :class \\\\\"icon_notification\\\\\" :halign \\\\\"center\\\\\" :valign \\\\\"center\\\\\" :style \\\\\"background-image: url(\'{6}\');\\\\\") (box :class \\\\\"box\\\\\" :orientation \\\\\"v\\\\\" :space-evenly false (label :class \\\\\"notif_label\\\\\" :halign \\\\\"start\\\\\" :text \\\\\"{2} from {3}\\\\\" :style \\\\\"font-size: 16px; font-weight: bold; padding-top: 12px;\\\\\") (label :class \\\\\"notif_label\\\\\" :halign \\\\\"start\\\\\" :text \\\\\"{0}\\\\\" :style \\\\\"font-size: 12px; padding-top: 4px;\\\\\"))) (button :class \\\\\"notif_button_label\\\\\" :onclick \\\\\"dunstctl history-rm {7}\\\\\" :halign \\\\\"end\\\\\" \\\\\"X\\\\\"))\\\"'\n\
+)\n\n\
+You may wonder why there is so much ANSI Escape character, since the program wait for the template string to be entirely in one argument\n\
+it become really tricky to write it in the correct way in Eww and Sh.\n\
+No need to say that manually writing this will be painful!\n\n\
+\033[1m\033[33m -te, --template-empty:\033[0m If there is no notifications in the history, make notifyuck output this yuck string.\n\
+Example: '(label :class \"label\" :text \"No notifications\")'\n\n\
+\033[1m\033[33m -mn, --max-notifications:\033[0m Output only N Yuck objects, you can also directly limit the number of\n\
+notifications in dunst directly. This makes notifyuck output only the N most recent objects.\n\n\
+\033[1m\033[33m -gl, --gen-inline:\033[0m Translate the template.yuck into an inline yuck that SHOULD directly\n\
+just be pasted into your (defpoll variable). Why? Because it directly take into account the PAINFUL Escaping of '\"' character.\n\n\
+\033[31mNote: \033[0mIt is only valid if you want to directly call notifyuck in defpoll instead of wrapping it to a scripts.\n\
+");
 	exit(0);
 }
