@@ -19,7 +19,7 @@ int	main(int argc, char *argv[], char *envp[])
 	fetch_bus_data(__BUFFER, envp);
 	len = strlen(__BUFFER);
 	if (len < 31)
-		output("(label :class \"label\" :text \"No Notifications\")\n");
+		(__RULES.__ARG_EMPTY_NOTIFICATION == NULL) ? output("(label :class \"label\" :text \"No Notifications\")\n") : (output(__RULES.__ARG_EMPTY_NOTIFICATION) && output("\n"));
 	else
 	{
 		char	*__PTR_BUFFER = __BUFFER;
