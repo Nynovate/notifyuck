@@ -64,4 +64,5 @@ void	print_value(char *__DATA);
 void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS);
 void	output_help(void);
 void	output_usage(void);
+void	output_version(void);
 void	translate_inline(char *__BUFFER, int argc, char *argv[]);

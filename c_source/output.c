@@ -164,15 +164,22 @@ void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS)
 
 void	output_help(void)
 {
-	output("EASY EWW NOTIFICATION CENTER!!!\n");
+	output("EASY NOTIFICATION CENTER!!!\n");
 	output("\033[1mUsage:\033[0m notifyuck [OPTIONS] [VALUE] ...\n");
 	output("\nAvalaible options:\n");
 	output("\033[1m-h,  --help:\033[0m			Print this information text.\n");
 	output("\033[1m-u,  --usage:\033[0m			Print a clear description about all the feature of this program.\n");
+	output("\033[1m-v,  --version:\033[0m			Print the version of the program and quit.\n");
 	output("\033[1m-ts, --template-string:\033[0m		Use the next argument as template string instead of fetching template.yuck.\n");
 	output("\033[1m-te, --template-empty:\033[0m		Use the next argument as template string if there is no notifications.\n");
 	output("\033[1m-so, --show-only:\033[0m		Generate only a N maximum of yuck object.\n");
 	output("\033[1m-gl, --gen-inline:\033[0m		Translate the template.yuck file into a correct inline Eww object.\n");
+	exit(0);
+}
+
+void	output_version(void)
+{
+	output("notifyuck v0.1.0\n");
 	exit(0);
 }
 

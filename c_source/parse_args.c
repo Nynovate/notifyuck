@@ -22,6 +22,8 @@ void	parse_args(s_rules *__RULES, int argc, char *argv[], char *__BUFFER)
 			__RULES->__ARG_TEMPLATE = argv[pos + 1];
 			pos++;
 		}
+		else if (!strncmp(argv[pos], "-v", 3) || !strncmp(argv[pos], "--version", 10))
+			output_version();
 		else if (!strncmp(argv[pos], "-te", 4) || !strncmp(argv[pos], "--template-empty", 17))
 		{
 			if (pos == argc - 1 || argv[pos + 1][0] == '-')
