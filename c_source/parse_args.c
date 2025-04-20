@@ -32,22 +32,22 @@ void	parse_args(s_rules *__RULES, int argc, char *argv[], char *__BUFFER)
 			__RULES->__ARG_EMPTY_NOTIFICATION = argv[pos + 1];
 			pos++;
 		}
-		else if (!strncmp(argv[pos], "-mn", 4) || !strncmp(argv[pos], "--max-notifications", 20))
+		else if (!strncmp(argv[pos], "-so", 4) || !strncmp(argv[pos], "--show-only", 20))
 		{
 			if (pos == argc - 1)
 			{
-				error("The max notifications [OPTIONS] only take positive digit.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
+				error("The show only N notifications [OPTIONS] only take positive digit.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
 				exit(0);
 			}
 			else if (argv[pos + 1][0] == '-')
 			{
-				error("The user didn't give any data for the max notifications [OPTIONS].\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
+				error("The user didn't give any data for the show only N notifications [OPTIONS].\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
 				exit(0);
 			}
 			__RULES->__ARG_MAX_NOTIF = atoi(argv[pos + 1]);
 			if (__RULES->__ARG_MAX_NOTIF < 0)
 			{
-				error("The max notifications [OPTIONS] only take positive digit.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
+				error("The show only N notifications [OPTIONS] only take positive digit.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
 				exit(0);
 			}
 			else if (__RULES->__ARG_MAX_NOTIF < 3)
@@ -55,9 +55,9 @@ void	parse_args(s_rules *__RULES, int argc, char *argv[], char *__BUFFER)
 				error("Having less than 3 notifications seems meaningless for a notification center.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
 				exit(0);
 			}
-			else if (__RULES->__ARG_MAX_NOTIF > 40)
+			else if (__RULES->__ARG_MAX_NOTIF >= 20)
 			{
-				error("For performance reason, having more than 30 notifications is not recommended.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
+				error("notifyuck is limited to 20 to show notifications at maximum.\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", __ERROR_FAILURE__);
 				exit(0);
 			}
 			pos++;

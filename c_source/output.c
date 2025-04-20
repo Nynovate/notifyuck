@@ -171,7 +171,7 @@ void	output_help(void)
 	output("\033[1m-u,  --usage:\033[0m			Print a clear description about all the feature of this program.\n");
 	output("\033[1m-ts, --template-string:\033[0m		Use the next argument as template string instead of fetching template.yuck.\n");
 	output("\033[1m-te, --template-empty:\033[0m		Use the next argument as template string if there is no notifications.\n");
-	output("\033[1m-mn, --max-notifications:\033[0m	Generate only a N maximum of yuck object.\n");
+	output("\033[1m-so, --show-only:\033[0m		Generate only a N maximum of yuck object.\n");
 	output("\033[1m-gl, --gen-inline:\033[0m		Translate the template.yuck file into a correct inline Eww object.\n");
 	exit(0);
 }
@@ -256,11 +256,11 @@ it become really tricky to write it in the correct way in Eww and Sh.\n\
 No need to say that manually writing this will be painful!\n\n\
 \033[1m\033[33m -te, --template-empty:\033[0m If there is no notifications in the history, make notifyuck output this yuck string.\n\
 Example: '(label :class \"label\" :text \"No notifications\")'\n\n\
-\033[1m\033[33m -mn, --max-notifications:\033[0m Output only N Yuck objects, you can also directly limit the number of\n\
-notifications in dunst directly. This makes notifyuck output only the N most recent objects.\n\n\
+\033[1m\033[33m -so, --show-only:\033[0m Output only N Yuck objects, notifyuck can't go above 20 notifications\n\
+This makes notifyuck output only the N most recent objects.\n\n\
 \033[1m\033[33m -gl, --gen-inline:\033[0m Translate the template.yuck into an inline yuck that SHOULD directly\n\
 just be pasted into your (defpoll variable). Why? Because it directly take into account the PAINFUL Escaping of '\"' character.\n\n\
-\033[31mNote: \033[0mIt is only necessary if you want to directly call notifyuck in defpoll instead of wrapping it to a scripts.\n\
+\033[31mNote: \033[0mIt is only necessary if you want to directly call notifyuck in defpoll instead of wrapping it around a script.\n\
 ");
 	exit(0);
 }

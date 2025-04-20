@@ -43,13 +43,12 @@ int	main(int argc, char *argv[], char *envp[])
 			__CODE_ERROR = fetch_template(__TEMPLATE_BUFFER);
 			if (__CODE_ERROR == __OK__)
 			{
-				output("(box :class \"box\" :orientation \"v\" :space-evenly false\n");
 				while (iteration < __PARSED_DATA)
 				{
 					output_notifications(__TEMPLATE_BUFFER, &__NOTIFICATION_OBJECTS__[iteration]);
 					iteration++;
 				}
-				output(")\n");
+				output("\n");
 			}
 		}
 	}

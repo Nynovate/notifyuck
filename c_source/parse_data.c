@@ -55,7 +55,7 @@ void	parse_data(char *__BUFFER, s_notif *__OBJS, ssize_t *__PARSED_DATA, ssize_t
 	while (true)
 	{
 		ptr = strnstr(__BUFFER, "\"body\":{\"type\":\"s\",\"data\":", 256);
-		if (!ptr || (__MAX != -1 && *__PARSED_DATA > __MAX))
+		if (!ptr || *__PARSED_DATA >= __MAX_NOTIF__ || (__MAX != -1 && *__PARSED_DATA >= __MAX))
 			break ;
 		__OBJS[index].__VALID_SLOT = true;
 		assign_ptr(ptr, NULL, &__OBJS[index].__BODY, &__BUFFER, 26);
