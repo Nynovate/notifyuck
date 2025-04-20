@@ -159,9 +159,70 @@ void	output_help(void)
 	output("\033[1m-ts, --template-string:\033[0m		Use the next argument as template string instead of fetching template.yuck.\n");
 	output("\033[1m-te, --template-empty:\033[0m		Use the next argument as template string if there is no notifications.\n");
 	output("\033[1m-mn, --max-notifications:\033[0m	Generate only a N maximum of yuck object.\n");
+	exit(0);
 }
 
 void	output_usage(void)
 {
-	output("This is the usage page!\n");
+	output("\033[1mWhat the hell is notifyuck?\033[0m\n\
+It is a C program that can transform all notifications in dunstctl history into a yuck object that can be used with Eww(Elkowar's Wicky Widgets)\n\n\
+\033[1mHow it works?\033[0m\n\
+notifyuck will call and store the output of busctl, parse the data of all notification, output a yuck object based on the given template. All of those operations are done on the stack, no dynamic allocation are done during the entire process.\n\n\
+\033[1mWhat is a template?\033[0m\n\
+A template is a file that contains the yuck object that will be used as 'template' to generate all the notification.\n\n\
+\033[4mExample of a template:\033[0m\n\
+			(box	:class \"notif_box\"\n\
+				:orientation \"h\"\n\
+				:space-evenly false\n\
+				(box:class \"box\"\n\
+					:orientation \"h\"\n\
+					:space-evenly false\n\
+					:width 550\n\
+					(box:class \"icon_notification\"\n\
+						:halign \"center\"\n\
+						:valign \"center\"\n\
+						:style \"background-image: url('\033[33m{6}\033[0m');\"\n\
+						)\n\
+					(box:class \"box\"\n\
+						:orientation \"v\"\n\
+						:space-evenly false\n\
+						(label:class \"notif_label\"\n\
+							:halign \"start\"\n\
+							:text \"\033[33m{2}\033[0m from \033[33m{3}\033[0m\"\n\
+							:style \"font-size: 16px; font-weight: bold; padding-top: 12px;\"\n\
+							)\n\
+						(label:class \"notif_label\"\n\
+							:halign \"start\"\n\
+							:text \"\033[33m{0}\033[0m\"\n\
+							:style \"font-size: 12px; padding-top: 4px;\"\n\
+							)\n\
+						)\n\
+					)\n\
+					(button:class \"notif_button_label\"\n\
+							:onclick \"dunstctl history-rm \033[33m{7}\033[0m\"\n\
+							:halign \"end\"\n\
+							\"X\"\n\
+					)\n\
+			)\
+\n\nThe character in \033[33myellow\033[0m are the character that will be substitued by the value of the notification data.\n\
+\033[1mList of possible substitution:\033[0m\n\
+ {0} -> BODY;\n\
+ {1} -> MESSAGE;\n\
+ {2} -> SUMMARY;\n\
+ {3} -> APPNAME;\n\
+ {4} -> CATEGORY;\n\
+ {5} -> DEFAULT_ACTION_NAME;\n\
+ {6} -> ICON_PATH;\n\
+ {7} -> ID;\n\
+ {8} -> TIMESTAMP;\n\
+ {9} -> TIMEOUT;\n\
+ {10} -> PROGRESS;\n\
+ {11} -> URGENCY;\n\
+ {12} -> STACK_TAG;\n\
+ {13} -> URLS;\n\n\
+\033[31m\033[1m\033[4mNote:\033[0m\n\
+  - It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally \\{0}.\n\
+  - notifyuck doesn't check for any error inside the given template for performance reason, you should always make sure to test that your template work directly with Eww.\n\n\
+\033[1mnotifyuck Features:\033[0m\n");
+	exit(0);
 }
