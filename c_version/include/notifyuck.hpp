@@ -7,6 +7,7 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include <limits.h>
 # ifndef __INTERNAL_BUFF__
 #  define __INTERNAL_BUFF__ 110592
 # endif
@@ -46,10 +47,20 @@ typedef struct notif_obj
 	char	*__URLS;
 }			s_notif;
 
+typedef struct rules
+{
+	char	*__ARG_TEMPLATE;
+	char	*__ARG_EMPTY_NOTIFICATION;
+	ssize_t	__ARG_MAX_NOTIF;	
+}			s_rules;
+
 size_t	output(const char *str);
 e_err	error(const char *str, e_err __ERROR_CODE);
 bool	fetch_bus_data(char *__BUFFER, char *envp[]);
+bool	parse_args(s_rules *__RULES, int argc, char *argv[]);
 void	parse_data(char *__BUFFER, s_notif *__OBJS, size_t *__PARSED_DATA);
 e_err	fetch_template(char *__TEMPLATE_BUFFER);
 void	print_value(char *__DATA);
 void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS);
+void	output_help(void);
+void	output_usage(void);

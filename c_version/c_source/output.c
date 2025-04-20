@@ -147,3 +147,17 @@ void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS)
 			print_value(__CONTAINERS[__INDEX]);
 	}
 }
+
+void	output_help(void)
+{
+	output("EASY EWW NOTIFICATION CENTER!!!\n");
+	output("\033[1mUsage:\033[0m notifyuck [OPTIONS]\n");
+	output("\nAvalaible options:\n");
+	output("\033[1m-h, --help:\033[0m		Print this information text\n");
+	output("\033[1m-u, --usage:\033[0m		Print a clear description about all the feature of this program\n");
+}
+
+void	output_usage(void)
+{
+	output("This is the usage page!\n");
+}
