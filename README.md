@@ -50,7 +50,7 @@ We can get the following result:
 ![Output Example](images/output_example.png)
 
 ## Installation
-You have two options, git clone this repo and compile it.
+You have two options, git clone this repo and compile it, or just grab the binary under release.
 
 ## Usage
 For a full explanation, just run ./notifyuck -u
