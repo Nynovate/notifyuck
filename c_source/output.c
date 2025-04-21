@@ -7,6 +7,18 @@ size_t	output(const char *str)
 	return (write(STDOUT_FILENO, str, strlen(str)));
 }
 
+void	args_error(const char *str)
+{
+	if (!str)
+		return ;
+	if (*str != '\0')
+	{
+		write(STDERR_FILENO, "\033[31mERROR: \033[0mnotifyuck: ", 28);
+		write(STDERR_FILENO, str, strlen(str));
+	}
+	write(STDERR_FILENO, "\n\nFor more information, try \033[1m\"-h\"\033[0m or \033[1m\"--help\"\033[0m.\nFor detailed explanation, try \033[1m\"-u\"\033[0m or \033[1m\"--usage\"\033[0m.\n", 128);
+}
+
 e_err	error(const char *str, e_err __ERROR_CODE)
 {
 	if (!str)
