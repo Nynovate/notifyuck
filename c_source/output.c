@@ -217,7 +217,22 @@ void	output_usage(void)
 	You can also pass a file with the options -pt or --path-template.\n\
 	It is important to note than when calling the program from Eww, \033[4mtemplate.yuck have to be located at the root\n\
 	of your eww configs folder instead of where the program is located!\033[0m\n\n\
-\033[4mExample of a template:\033[0m\n\
+	Let's have some simple example:\n\
+	This will be in our template.yuck -> (label :class \"notification\" :markup \"{0}\")\n\
+	notifyuck will take this template and apply the same template for each notification inside the notifications\n\
+	history. There will be a loop that print that template with each one them substitued by the notification data!\n\n\
+	We will get an output like this if there is 3 notifications in the history:\n\
+			(label :class \"notification\" :markup \"A normal notification\")\n\
+			(label :class \"notification\" :markup \"Another notification\")\n\
+			(label :class \"notification\" :markup \"Maybe a urgent notification\")\n\n\
+	It was easy peasy no? We can also add more complexity by setting a custom class depending on the type of\n\
+	notifications like this:\n\
+		(label :class \"notification_{11}\" :markup \"{0}\")\n\n\
+	We will get an output like this with the previous example:\n\
+			(label :class \"notification_LOW\" :markup \"A normal notification\")\n\
+			(label :class \"notification_NORMAL\" :markup \"Another notification\")\n\
+			(label :class \"notification_CRITICAL\" :markup \"Maybe a urgent notification\")\n\n\
+\033[4mExample of a more complex template:\033[0m\n\
 			(box	:class \"notif_box\"\n\
 				:orientation \"h\"\n\
 				:space-evenly false\n\
@@ -290,8 +305,8 @@ void	output_usage(void)
 	No need to say that manually writing this will be painful!\n\n\
 \033[1m\033[33m -te, --template-empty:\033[0m\n\
 	If there is no notifications in the history, make notifyuck output this yuck string.\n\
-Example:\n\
-	'(label :class \"label\" :text \"No notifications\")'\n\n\
+	The default one used is:\n\
+		'(label :class \"no_notification_label\" :text \"No notification\")'\n\n\
 \033[1m\033[33m -so, --show-only:\033[0m\n\
 	Output only N Yuck objects.\n\
 	This makes notifyuck output only the N most recent objects.\n\n\

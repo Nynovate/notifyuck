@@ -51,6 +51,7 @@ typedef struct rules
 {
 	char	*__ARG_TEMPLATE;
 	char	*__ARG_EMPTY_NOTIFICATION;
+	char	*__ARG_FILE_TEMPLATE;
 	ssize_t	__ARG_MAX_NOTIF;	
 }			s_rules;
 
@@ -60,7 +61,7 @@ e_err	error(const char *str, e_err __ERROR_CODE);
 bool	fetch_bus_data(char *__BUFFER, char *envp[]);
 void	parse_args(s_rules *__RULES, int argc, char *argv[], char *__BUFFER);
 void	parse_data(char *__BUFFER, s_notif *__OBJS, ssize_t *__PARSED_DATA, ssize_t __MAX);
-e_err	fetch_template(char *__TEMPLATE_BUFFER);
+e_err	fetch_template(char *__TEMPLATE_BUFFER, char *__ARG_FILE_TEMPLATE);
 void	print_value(char *__DATA);
 void	output_notifications(char *__TEMPLATE_BUFFER, s_notif *__OBJS);
 void	output_help(void);

@@ -7,18 +7,17 @@ static void	read_template(char *__TEMPLATE_BUFFER, int __TEMPLATE)
 	nread = read(__TEMPLATE, __TEMPLATE_BUFFER, __INTERNAL_BUFF__);
 	if (nread == __ERROR_FAILURE__)
 	{
-		output("(label :class \"label\" :text \"Can't open template.yuck. Try running notifyuck to look for the error\")\n");
-		exit(error("An error occured during the read of the template file\n", __ERROR_READ_TEMPLATE__));
+		output("(label :markup \"<span color=\'#FF0000\'>ERROR:</span> notifyuck: CODE -> <b>__ERROR_READ_TEMPLATE__</b>)\"");
+		error("An error occured during the read of the template file\n", __ERROR_READ_TEMPLATE__);
+		exit(0);
 	}
 }
 
-e_err	fetch_template(char *__TEMPLATE_BUFFER)
+e_err	fetch_template(char *__TEMPLATE_BUFFER, char *__ARG_FILE_TEMPLATE)
 {
-	char	*__PATH;
 	int		__TEMPLATE;
 
-	__PATH = getenv("NOTIFYUCK_PATH_TEMPLATE");
-	if (!__PATH)
+	if (!__ARG_FILE_TEMPLATE)
 	{
 		__TEMPLATE = open("template.yuck", O_RDONLY);
 		if (__TEMPLATE == __ERROR_FAILURE__)
@@ -30,7 +29,7 @@ e_err	fetch_template(char *__TEMPLATE_BUFFER)
 	}
 	else
 	{
-		__TEMPLATE = open(__PATH, O_RDONLY);
+		__TEMPLATE = open(__ARG_FILE_TEMPLATE, O_RDONLY);
 		if (__TEMPLATE == __ERROR_FAILURE__)
 		{
 			output("(label :class \"label\" :text \"Can't open user custom template. Try running notifyuck to look for the error\")\n");

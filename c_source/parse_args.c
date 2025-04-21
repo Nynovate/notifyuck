@@ -24,6 +24,16 @@ void	parse_args(s_rules *__RULES, int argc, char *argv[], char *__BUFFER)
 		}
 		else if (!strncmp(argv[pos], "-v", 3) || !strncmp(argv[pos], "--version", 10))
 			output_version();
+		else if (!strncmp(argv[pos], "-ft", 4) || !strncmp(argv[pos], "--file-template", 16))
+		{
+			if (pos == argc - 1 || argv[pos + 1][0] == '-')
+			{
+				args_error("The user didn't give any file to file template [OPTIONS].");
+				exit(0);
+			}
+			__RULES->__ARG_FILE_TEMPLATE = argv[pos + 1];
+			pos++;
+		}
 		else if (!strncmp(argv[pos], "-te", 4) || !strncmp(argv[pos], "--template-empty", 17))
 		{
 			if (pos == argc - 1 || argv[pos + 1][0] == '-')

@@ -19,7 +19,7 @@ int	main(int argc, char *argv[], char *envp[])
 	fetch_bus_data(__BUFFER, envp);
 	len = strlen(__BUFFER);
 	if (len < 31)
-		(__RULES.__ARG_EMPTY_NOTIFICATION == NULL) ? output("(label :class \"label\" :text \"No Notifications\")\n") : (output(__RULES.__ARG_EMPTY_NOTIFICATION) && output("\n"));
+		(__RULES.__ARG_EMPTY_NOTIFICATION == NULL) ? output("(label :class \"no_notification_label\" :text \"No notification\")\n") : (output(__RULES.__ARG_EMPTY_NOTIFICATION) && output("\n"));
 	else
 	{
 		char	*__PTR_BUFFER = __BUFFER;
@@ -30,17 +30,16 @@ int	main(int argc, char *argv[], char *envp[])
 		parse_data(__PTR_BUFFER, __NOTIFICATION_OBJECTS__, &__PARSED_DATA, __RULES.__ARG_MAX_NOTIF);
 		if (__RULES.__ARG_TEMPLATE != NULL)
 		{
-			output("(box :class \"box\" :orientation \"v\" :space-evenly false\n");
 			while (iteration < __PARSED_DATA)
 			{
 				output_notifications(__RULES.__ARG_TEMPLATE, &__NOTIFICATION_OBJECTS__[iteration]);
 				iteration++;
+				output("\n");
 			}
-			output(")\n");
 		}
 		else
 		{
-			__CODE_ERROR = fetch_template(__TEMPLATE_BUFFER);
+			__CODE_ERROR = fetch_template(__TEMPLATE_BUFFER, __RULES.__ARG_FILE_TEMPLATE);
 			if (__CODE_ERROR == __OK__)
 			{
 				while (iteration < __PARSED_DATA)
