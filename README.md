@@ -39,7 +39,7 @@ With this as template:
 				)
 		)
 		(button	:class "notif_button_label"
-				:onclick "dunstctl history-rm \{7}"
+				:onclick "dunstctl history-rm {7}"
 				:halign "end"
 				"X"
 		)
