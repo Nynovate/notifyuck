@@ -182,6 +182,7 @@ void	output_help(void)
 	output("\033[1m-h,  --help:\033[0m			Print this information text.\n");
 	output("\033[1m-u,  --usage:\033[0m			Print a clear description about all the feature of this program.\n");
 	output("\033[1m-v,  --version:\033[0m			Print the version of the program and quit.\n");
+	output("\033[1m-ft, --file-template:\033[0m		Use the next argument as template file instead of fetching template.yuck.\n");
 	output("\033[1m-ts, --template-string:\033[0m		Use the next argument as template string instead of fetching template.yuck.\n");
 	output("\033[1m-te, --template-empty:\033[0m		Use the next argument as template string if there is no notifications.\n");
 	output("\033[1m-so, --show-only:\033[0m		Generate only a N maximum of yuck object.\n");
@@ -303,6 +304,12 @@ void	output_usage(void)
 	You may wonder why there is so much ANSI Escape character, since the program wait for the template string to be entirely in one argument\n\
 	it become really tricky to write it in the correct way in Eww and Sh.\n\
 	No need to say that manually writing this will be painful!\n\n\
+\033[1m\033[33m -ft, --file-template:\033[0m\n\
+	Use this file as template instead of template.yuck.\n\n\
+	\033[31m\033[4m\033[1mNote:\033[0m\n\
+	If it is called from eww, prefer using absolute path than relative path!\n\
+	It can become really tricky to know where the file is located because eww always search inside the root of your\n\
+	eww configs.\n\n\
 \033[1m\033[33m -te, --template-empty:\033[0m\n\
 	If there is no notifications in the history, make notifyuck output this yuck string.\n\
 	The default one used is:\n\
