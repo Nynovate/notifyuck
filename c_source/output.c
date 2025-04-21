@@ -186,12 +186,25 @@ void	output_version(void)
 void	output_usage(void)
 {
 	output("\033[1mWhat the hell is notifyuck?\033[0m\n\
-	It is a C program that can transform all notifications in dunstctl history into a yuck object that can be used with Eww(Elkowar's Wicky Widgets)\n\n\
+	It is a C program that work with dunst to easily create a notification center with Eww(Elkowar's Wicky Widgets)\n\n\
 \033[1mHow it works?\033[0m\n\
-	notifyuck will call and store the output of busctl, parse the data of all notification, output a yuck object based on the given template.\n\
-	All of those operations are done on the stack, no dynamic allocation are done during the entire process.\n\n\
+	notifyuck will call and store the output of busctl, parse the data of all notification, output the notification based on the given template.\n\
+	In simple term, it just does simple substitution with the data of all notification.\n\n\
+\033[1mWhen to use it?\033[0m\n\
+	Well, if you have seen a cool ricing that implement a cool notification center but have no clue on how to do it.\n\
+	Also, most of times, notification center are quite hard to do, there is a lot of stuff to do with script and\n\
+	quickly become overwhelming for non-programmers.\n\n\
+\033[1mMy goal?\033[0m\n\
+	Make an easy tool to use for everybody, ricing should be accessible to everyone!\n\
+	Doing it in a script are less performant than using notifyuck, notifyuck was build\n\
+	to be fast as hell. I get a pretty decent result on my potato pc!\n\n\
 \033[1mWhat is a template?\033[0m\n\
 	A template is a file that contains the yuck object that will be used as blueprint to generate all the notification.\n\n\
+\033[1mHow to use it?\033[0m\n\
+	If you call notifyuck without any arguments, it will look for template.yuck in the folder where the program is located.\n\
+	You can also pass a file with the options -pt or --path-template.\n\
+	It is important to note than when calling the program from Eww, \033[4mtemplate.yuck have to be located at the root\n\
+	of your eww configs folder instead of where the program is located!\033[0m\n\n\
 \033[4mExample of a template:\033[0m\n\
 			(box	:class \"notif_box\"\n\
 				:orientation \"h\"\n\
@@ -204,7 +217,7 @@ void	output_usage(void)
 						:halign \"center\"\n\
 						:valign \"center\"\n\
 						:style \"background-image: url('\033[33m{6}\033[0m');\"\n\
-						)\n\
+					)\n\
 					(box:class \"box\"\n\
 						:orientation \"v\"\n\
 						:space-evenly false\n\
@@ -243,7 +256,7 @@ void	output_usage(void)
 	{12} -> STACK_TAG;\n\
 	{13} -> URLS;\n\n\
 	\033[31m\033[1m\033[4mNote:\033[0m\n\
-	- It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally \\{0}.\n\
+	- It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally {0}.\n\
 	- notifyuck doesn't check for any error inside the given template for performance reason, you should always make sure to test that your template work directly with Eww.\n\n\
 \033[1m\033[4mnotifyuck options:\033[0m\n\
 \033[1m\033[33m -ts, --template-string:\033[0m\n\
@@ -268,7 +281,7 @@ void	output_usage(void)
 Example:\n\
 	'(label :class \"label\" :text \"No notifications\")'\n\n\
 \033[1m\033[33m -so, --show-only:\033[0m\n\
-	Output only N Yuck objects, notifyuck can't go above 20 notifications\n\
+	Output only N Yuck objects.\n\
 	This makes notifyuck output only the N most recent objects.\n\n\
 \033[1m\033[33m -gl, --gen-inline:\033[0m\n\
 	Translate the template.yuck into an inline yuck that SHOULD directly\n\
