@@ -199,35 +199,41 @@ void	output_version(void)
 void	output_usage(void)
 {
 	output("\033[1mWhat the hell is notifyuck?\033[0m\n\
-	It is a C program that work with dunst to easily create a notification center with Eww(Elkowar's Wicky Widgets)\n\n\
+	It is a C program that work with dunst to easily create a notification center\n\
+	with Eww(Elkowar's Wicky Widgets).\n\n\
 \033[1mHow it works?\033[0m\n\
-	notifyuck will call and store the output of busctl, parse the data of all notification, output the notification based on the given template.\n\
+	notifyuck will call and store the output of busctl, parse the data of all\n\
+	notification, output the notification based on the given template.\n\
 	In simple term, it just does simple substitution with the data of all notification.\n\n\
 \033[1mWhen to use it?\033[0m\n\
-	Well, if you have seen a cool ricing that implement a cool notification center but have no clue on how to do it.\n\
-	Also, most of times, notification center are quite hard to do, there is a lot of stuff to do with script and\n\
-	quickly become overwhelming for non-programmers.\n\n\
+	Well, if you have seen a cool ricing that implement a cool notification center\n\
+	but have no clue on how to do it. Also, most of times, notification center\n\
+	are quite hard to do, there is a lot of stuff to do with script and quickly\n\
+	become overwhelming for non-programmers.\n\n\
 \033[1mMy goal?\033[0m\n\
 	Make an easy tool to use for everybody, ricing should be accessible to everyone!\n\
 	Doing it in a script are less performant than using notifyuck, notifyuck was build\n\
 	to be fast. I get a pretty decent result on my potato pc!\n\n\
 \033[1mWhat is a template?\033[0m\n\
-	A template is a file that contains the yuck object that will be used as blueprint to generate all the notification.\n\n\
+	A template is a file that contains the yuck object that will be used as\n\
+	blueprint to generate all the notification.\n\n\
 \033[1mHow to use it?\033[0m\n\
-	If you call notifyuck without any arguments, it will look for template.yuck in the folder where the program is located.\n\
-	You can also pass a file with the options -pt or --path-template.\n\
-	It is important to note than when calling the program from Eww, \033[4mtemplate.yuck have to be located at the root\n\
+	If you call notifyuck without any arguments, it will look for template.yuck\n\
+	in the folder where the program is located. You can also pass a file with\n\
+	the options -pt or --path-template. It is important to note than when\n\
+	calling the program from Eww, \033[4mtemplate.yuck have to be located at the root\n\
 	of your eww configs folder instead of where the program is located!\033[0m\n\n\
 	Let's have some simple example:\n\
 	This will be in our template.yuck -> (label :class \"notification\" :markup \"{0}\")\n\
-	notifyuck will take this template and apply the same template for each notification inside the notifications\n\
-	history. There will be a loop that print that template with each one them substitued by the notification data!\n\n\
+	notifyuck will take this template and apply the same template for each\n\
+	notification inside the notifications history. There will be a loop\n\
+	that print that template with each one them substitued by the notification data!\n\n\
 	We will get an output like this if there is 3 notifications in the history:\n\
 			(label :class \"notification\" :markup \"A normal notification\")\n\
 			(label :class \"notification\" :markup \"Another notification\")\n\
 			(label :class \"notification\" :markup \"Maybe a urgent notification\")\n\n\
-	It was easy peasy no? We can also add more complexity by setting a custom class depending on the type of\n\
-	notifications like this:\n\
+	It was easy peasy no? We can also add more complexity by setting a custom\n\
+	class depending on the type of notifications like this:\n\
 		(label :class \"notification_{11}\" :markup \"{0}\")\n\n\
 	We will get an output like this with the previous example:\n\
 			(label :class \"notification_LOW\" :markup \"A normal notification\")\n\
@@ -267,7 +273,8 @@ void	output_usage(void)
 							\"X\"\n\
 					)\n\
 			)\
-\n\nThe character in \033[33myellow\033[0m are the character that will be substitued by the value of the notification data.\n\
+\n\nThe character in \033[33myellow\033[0m are the character that will be substitued\n\
+by the value of the notification data.\n\
 \033[1mList of possible substitution:\033[0m\n\
 	{0}  -> BODY;\n\
 	{1}  -> MESSAGE;\n\
@@ -284,32 +291,39 @@ void	output_usage(void)
 	{12} -> STACK_TAG;\n\
 	{13} -> URLS;\n\n\
 	\033[31m\033[1m\033[4mNote:\033[0m\n\
-	- It is possible to escape the substitution by just escaping '{' with the ANSI Escape character '\\', \"\\{0}\" will print literally {0}.\n\
-	- notifyuck doesn't check for any error inside the given template for performance reason, you should always make sure to test that your template work directly with Eww.\n\n\
+	- It is possible to escape the substitution by just escaping '{' with the\n\
+	ANSI Escape character '\\', \"\\{0}\" will print literally {0}.\n\
+	- notifyuck doesn't check for any error inside the given template for\n\
+	performance reason, you should always make sure to test that your template\n\
+	work directly with Eww.\n\n\
 \033[1m\033[4mnotifyuck options:\033[0m\n\
 \033[1m\033[33m -ts, --template-string:\033[0m\n\
 	You can directly pass an inline yuck to the program for better performance.\n\
-	In normal case, the template string are read from the DISK, and sending data from the DISK to the RAM is extremely slow!\n\
-	Using this options can help to reduce the overhead. The best workflow I found, is to first\n\
-	make a working notification mockup and test it directly in Eww. From then, I would copy that Eww objects and paste it inside\n\
-	template.yuck. When I'm happy with the final result, I will directly create an inline of that same template.yuck with the\n\
+	In normal case, the template string are read from the DISK, and sending data\n\
+	from the DISK to the RAM is extremely slow! Using this options can help to\n\
+	reduce the overhead. The best workflow I found, is to first make a working\n\
+	notification mockup and test it directly in Eww. From then, I would copy that\n\
+	Eww objects and paste it inside template.yuck. When I'm happy with the final\n\
+	result, I will directly create an inline of that same template.yuck with the\n\
 	built-in feature --gen-inline that will be directly just pasted to Eww.\n\n\
 	\033[31m\033[4m\033[1mNote:\033[0m\n\
-	It is important to note that the template string should be sent as a one big argument to the program!\n\
+	It is important to note that the template string should be sent as a one big\n\
+	argument to the program!\n\
 	Example:\n\n\
 	This is the inline of the previous template used in my Eww Config:\n\n\
 (defpoll NotificationData	:interval \"10s\"\n\
             './scripts/notif/c_version/notifyuck -ts \\\"(box :class \\\\\"notif_box\\\\\" :orientation \\\\\"h\\\\\" :space-evenly false(box :class \\\\\"box\\\\\" :orientation \\\\\"h\\\\\" :space-evenly false :width 550 (box :class \\\\\"icon_notification\\\\\" :halign \\\\\"center\\\\\" :valign \\\\\"center\\\\\" :style \\\\\"background-image: url(\'{6}\');\\\\\") (box :class \\\\\"box\\\\\" :orientation \\\\\"v\\\\\" :space-evenly false (label :class \\\\\"notif_label\\\\\" :halign \\\\\"start\\\\\" :text \\\\\"{2} from {3}\\\\\" :style \\\\\"font-size: 16px; font-weight: bold; padding-top: 12px;\\\\\") (label :class \\\\\"notif_label\\\\\" :halign \\\\\"start\\\\\" :text \\\\\"{0}\\\\\" :style \\\\\"font-size: 12px; padding-top: 4px;\\\\\"))) (button :class \\\\\"notif_button_label\\\\\" :onclick \\\\\"dunstctl history-rm {7}\\\\\" :halign \\\\\"end\\\\\" \\\\\"X\\\\\"))\\\"'\n\
 )\n\n\
-	You may wonder why there is so much ANSI Escape character, since the program wait for the template string to be entirely in one argument\n\
+	You may wonder why there is so much ANSI Escape character, since the program\n\
+	wait for the template string to be entirely in one argument\n\
 	it become really tricky to write it in the correct way in Eww and Sh.\n\
 	No need to say that manually writing this will be painful!\n\n\
 \033[1m\033[33m -ft, --file-template:\033[0m\n\
 	Use this file as template instead of template.yuck.\n\n\
 	\033[31m\033[4m\033[1mNote:\033[0m\n\
 	If it is called from eww, prefer using absolute path than relative path!\n\
-	It can become really tricky to know where the file is located because eww always search inside the root of your\n\
-	eww configs.\n\n\
+	It can become really tricky to know where the file is located because eww\n\
+	always search inside the root of your eww configs.\n\n\
 \033[1m\033[33m -te, --template-empty:\033[0m\n\
 	If there is no notifications in the history, make notifyuck output this yuck string.\n\
 	The default one used is:\n\
@@ -319,9 +333,13 @@ void	output_usage(void)
 	This makes notifyuck output only the N most recent objects.\n\n\
 \033[1m\033[33m -gl, --gen-inline:\033[0m\n\
 	Translate the template.yuck into an inline yuck that SHOULD directly\n\
-	just be pasted into your (defpoll variable). Why? Because it directly take into account the PAINFUL Escaping of '\"' character.\n\n\
+	just be pasted into your (defpoll variable). Why? Because it directly\n\
+	take into account the PAINFUL Escaping of '\"' character.\n\
+	This only works if it the only argument sent to notifyuck like\n\
+	./notifyuck [-gl|--generate-inline]\n\n\
 	\033[31m\033[4m\033[1mNote:\033[0m\n\
-	It is only necessary if you want to directly call notifyuck in defpoll instead of wrapping it around a script.\n\n\
+	It is only necessary if you want to directly call notifyuck in defpoll\n\
+	instead of wrapping it around a script.\n\n\
 \033[1mAUTHOR:\033[0m\n\
 	Written by RAKOTOARIVONY Razanajohary Ny Hasina\n\n\
 \033[1mCOPYRIGHTS:\033[0m\n\
