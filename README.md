@@ -46,6 +46,7 @@ With this as template:
 )
 </pre>
 We can get the following result:
+
 ![Output Example](images/output_example.png)
 
 ## Installation
