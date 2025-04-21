@@ -10,7 +10,7 @@ Obviously you need to have Eww installed also.
 
 ## Example Of Output
 With this as template:
-<pre>```
+<pre>
 (box	:class "notif_box_{11}"
         :orientation "h"
 		:space-evenly false
@@ -43,7 +43,19 @@ With this as template:
 				:halign "end"
 				"X"
 		)
-)```
+)
 </pre>
 We can get the following result:
 ![Output Example](images/output_example.png)
+
+## Installation
+You have two options, git clone this repo and compile it.
+
+## Usage
+For a full explanation, just run ./notifyuck -u
+
+## Disclaimer
+Please keep in mind that this is still a WIP, bugs or even crash are expected.
+Feel free to open an issue or directly send an email to djazejhasi@gmail.com.
+Also this is the first project I've ever released, so don't be too harsh if I've done
+something not usual!
