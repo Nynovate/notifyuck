@@ -210,7 +210,7 @@ void	output_usage(void)
 \033[1mMy goal?\033[0m\n\
 	Make an easy tool to use for everybody, ricing should be accessible to everyone!\n\
 	Doing it in a script are less performant than using notifyuck, notifyuck was build\n\
-	to be fast as hell. I get a pretty decent result on my potato pc!\n\n\
+	to be fast. I get a pretty decent result on my potato pc!\n\n\
 \033[1mWhat is a template?\033[0m\n\
 	A template is a file that contains the yuck object that will be used as blueprint to generate all the notification.\n\n\
 \033[1mHow to use it?\033[0m\n\

@@ -28,14 +28,15 @@ int	main(int argc, char *argv[], char *envp[])
 	
 		__PTR_BUFFER += 12;
 		parse_data(__PTR_BUFFER, __NOTIFICATION_OBJECTS__, &__PARSED_DATA, __RULES.__ARG_MAX_NOTIF);
+		output("(box :class \"box\" :orientation \"v\"\n");
 		if (__RULES.__ARG_TEMPLATE != NULL)
 		{
 			while (iteration < __PARSED_DATA)
 			{
 				output_notifications(__RULES.__ARG_TEMPLATE, &__NOTIFICATION_OBJECTS__[iteration]);
 				iteration++;
-				output("\n");
 			}
+			output(")\n");
 		}
 		else
 		{
@@ -47,7 +48,7 @@ int	main(int argc, char *argv[], char *envp[])
 					output_notifications(__TEMPLATE_BUFFER, &__NOTIFICATION_OBJECTS__[iteration]);
 					iteration++;
 				}
-				output("\n");
+				output(")\n");
 			}
 		}
 	}
