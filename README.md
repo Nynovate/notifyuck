@@ -9,4 +9,41 @@ You need to have dunst as your notification manager. Other notification manager 
 Obviously you need to have Eww installed also.
 
 ## Example Of Output
+With this as template:
+<pre>``` yuck
+(box	:class "notif_box_{11}"
+:orientation "h"
+			:space-evenly false
+			(box	:class "box"
+					:orientation "h"
+					:space-evenly false
+					:width 550
+					(box	:class "icon_notification"
+							:halign "center"
+							:valign "center"
+							:style "background-image: url('{6}');"
+					)
+					(box	:class "box"
+							:orientation "v"
+							:space-evenly false
+							(label	:class "notif_label"
+									:halign "start"
+									:markup "{2} from {3}"
+									:style "font-size: 16px; font-weight: bold; padding-top: 12px;"
+							)
+							(label	:class "notif_label"
+									:halign "start"
+									:markup "{0}"
+									:style "font-size: 12px; padding-top: 4px;"
+							)
+					)
+			)
+			(button	:class "notif_button_label"
+		 			:onclick "dunstctl history-rm \{7}"
+		 			:halign "end"
+		 			"X"
+			)
+	)```
+</pre>
+We can get the following result:
 ![Output Example](images/output_example.png)
