@@ -9,3 +9,4 @@ You need to have dunst as your notification manager. Other notification manager 
 Obviously you need to have Eww installed also.
 
 ## Example Of Output
+![Output Example][images/showcase notifyuck.png]
