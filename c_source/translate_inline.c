@@ -19,6 +19,8 @@ static void	translate(char *__BUFFER, ssize_t nread)
 			write(STDOUT_FILENO, " ", 1);
 			continue ;
 		}
+		else if (__BUFFER[__POS] == '\\')
+			write(STDOUT_FILENO, "\\\\", 2);
 		else if (__BUFFER[__POS] == '\"')
 			write(STDOUT_FILENO, "\\\\\"", 3);
 		else if (__BUFFER[__POS] == '\'')
